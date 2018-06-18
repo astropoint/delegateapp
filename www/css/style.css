@@ -263,14 +263,15 @@ img { max-width: 100%;}
 	border-radius: 10px;
 	margin: 0.5em 0 0.5em 0;
 	background-color: #ffffff;
-	cursor:pointer;}
+	cursor:pointer;
+	height: auto;
+}
 	
 #meetings_list p {
 	text-align:left;
 	margin-left:1em;
-	font-size: 2em;}
-	
-
+	font-size: 2em;
+}
 
 /*############ person profile page ############*/
 #person_profile_meeting_schdlr_div {
@@ -300,25 +301,17 @@ input:focus::-webkit-input-placeholder {
 input::-webkit-input-placeholder {
     color: #ccc;}
 	
-#attendee_profile_form fieldset, 
-#user_profile_form fieldset {
-	margin:2em 0 2em 0;
-	border:none;}
-	
-#user_profile_form button {
-	font-size:2em;}
-
-#user_profile_form input {
-	text-align:right;}
-
-#user_profile_form label, 
-#user_profile_form input, 
-#user_profile_form textarea {	
-	font-size:2em;
-	border:none;}
+.user_profile_form{
+	font-size: 1.5em;
+}
 	
 textarea {
 	width:100%;
+}
+
+.clickbuttongetgetperson{
+	color: grey;
+	font-size: 1em;
 }
 
 	
@@ -386,4 +379,19 @@ textarea {
 
 .ajaxresponse{
 	color: red;
+}
+
+.datetimelocal{
+	background: none;
+}
+
+.ui-input-text{
+	border: 0;
+}
+
+.errormessage{
+	text-align:center;
+	border-radius:5px;
+	background-color: #f8d7da;
+	color: #721c24; 
 }

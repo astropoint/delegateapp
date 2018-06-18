@@ -241,9 +241,9 @@
     
     
     
-    <div data-role="page" id="delegateConfirmed_Meeting">
+    <div data-role="page" id="delegateMeetingDetails">
         <div data-role="header">
-            <title>Confirmed Meeting</title>
+            <title>Meeting</title>
 
         </div>
 
@@ -255,44 +255,32 @@
                     <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
                     <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
                 </div>			
-                <h1 class="logo center"> conference name </h1>
+                <h1 class="logo center conference_name">  </h1>
                             <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
+                    <p class="sync_info right"> synced: <span class="sync_time"> </span> </p>
                     
                 <hr style="clear:both; visibility: hidden;">
             </div>	
             
-            <!-- Time Sync Info  -->	    
-            
             <!-- other person's profile-->
-            <div class="delegateProfile">
+			<div class="delegateProfile row">
+	 
+
+				<div class="two columns profile_photo_div">
+					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
+				</div>
 
 
-                    <div class="profile_photo_div">
-                        <img class="delegateProfilePic" src="profile_placeholder.jpeg" alt="profile photo"><br>
-                    </div>
-
-
-                <form class="user_profile_form">
-                    <fieldset>
-                        <input type="text" name="f_name" maxlength="15" placeholder="David" class="f_name" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="s_name" maxlength="15" placeholder="Ford" class="s_name" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="org" maxlength="50" placeholder="AJ Limited" class="org" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="role" maxlength="50" placeholder="Executive Director" class="person_role" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <textarea name="bio" class="bio"  maxlength="250" placeholder="Hi!" disabled></textarea>
-                    </fieldset>		
-                </form>
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='meeting_profile_first_name'></span><span id='meeting_profile_last_name'></span></strong></p>
+					<p><span id='meeting_profile_organisation'></span>: <span id='meeting_profile_job_title'></span></p>
+					<p><span id='meeting_profile_bio'></span></p>
+				</div>
 				
-	       </div>
+			</div>
+	       
             </div>
+            <input type='hidden' id='selectedmeeting' />
             <!-- schedule -->		
             <div id="Confirmed_meeting_schedule" class="meeting_schedule">
 
@@ -320,251 +308,8 @@
                 
             </div>
 
-            
-            
-        </div>
 
-
-    
-    <div data-role="page" id="delegateFind_People">
-        <div data-role="header">
-		  <title>Find People</title>
-        </div>
-	
-        <div role="main" class="ui-content">
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center"> conference name </h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
-            </div>	
-
-            <h1 class="center">Find People</h1>
-
-            <!-- Search Bar
-            <input id="search_bar" type="text" placeholder="Search People..." required>
-
-            <!-- List caption, initially empty but updated when search returns
-            <br><br><p id="people_list_caption"> x results found</p>-->
-
-            <!-- Returned List From Search -->
-            <div id="people_list">
-                <!-- list items to be dynamically created with JS  
-                    <button class="personlist ui-btn ui-shadow ui-corner-all">
-                        <p>Forename Surname</p>
-                        <div>
-                            <p>Organization</p>
-                            <h3 idsquiggle class="clickbuttongetgetperson" style="color:blue">more...</h3>
-                        </div>
-                    </button>	-->		
-            </div>	
-
-            
-	   </div>
-    </div> 
-    
-    
-    <div data-role="page" id="delegateManage_Meeting">
-        <div data-role="header">
-		  <title>Meeting Requests</title>
-        </div>
-	
-        <div role="main" class="ui-content">    
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center"> conference name </h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
-            </div>	
-            
-            
-            <h1 class="center">Meeting Requests</h1>
-            
-            
-
-<!--            <div id="meeting_filter" class="center">
-                <ul>
-                    <li><a href="#"> Name  &#9660; </a></li>
-                    <li><a href="#"> Date  &#9660; </a></li>
-                    <li><a href="#"> Time Received  &#9660; </a></li>
-                </ul>
-            </div>						
-
-             Meeting status update with JS 
-            <span id="meetings_list_caption" class="right"> 3 pending meetings </span>-->
-
-            <!-- Returned meeting list From Search -->
-            <div id="meetings_list">
-                <!-- list items to be dynamically created with JS 
-                <button idsquiggle2 class="meetingbutton ui-btn ui-shadow ui-corner-all">
-                    <h3 class="left">Forename Surname <br> Organization </h3>
-                    <h1 class="right">@</h1>                 
-                    <br style="clear:both;">
-                    <h3 class="left">Time</h3>
-                    <h4 class="right red">1hr 4m ago</h4>
-                </button>	-->		
-            </div>		
-
-            
-	   </div>
-    </div> 
-    
-    
-
-
-
-
-
-    <div data-role="page" id="delegatePerson_Profile">
-        <div data-role="header">
-            <title>View Profile</title>
-        </div>
-
-        <div role="main" class="ui-content">
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center"> conference name </h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
-            </div>	
-            
-
-            
-            <div class="delegateProfile">
-
-
-                    <div class="profile_photo_div">
-                        <img class="delegateProfilePic" src="profile_placeholder.jpeg" alt="profile photo"><br>
-                    </div>
-
-
-                <form class="user_profile_form">
-                    <fieldset>
-                        <input type="text" name="f_name" maxlength="15" placeholder="David" class="f_name" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="s_name" maxlength="15" placeholder="Ford" class="s_name" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="org" maxlength="50" placeholder="AJ Limited" class="org" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="role" maxlength="50" placeholder="Executive Director" class="person_role" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <textarea name="bio" class="bio"  maxlength="250" placeholder="Hi!" disabled></textarea>
-                    </fieldset>		
-                </form>
-				
-	       </div>
-    <!--meeting button, hide onclick and display fix meeting modal below -->	
-                <fieldset>						
-                    <button type="button" id="arrange_meeting_btn" class="grey_btn" placeholder="Hi!">Meeting</button>
-                </fieldset>			
-
-    <!-- alternate view fix meeting modal visibility to be toggled with default meeting view above, JS -->
-                <div id="person_profile_meeting_schdlr_div">
-                    <fieldset>
-                        <label for="schdlr_dt_tm" class="left">Date \ Time</label>
-                        <input type="datetime-local" name="schdlr_dt_tm" class="schdlr_dt_tm right">
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="schdlr_lctn" class="left">Location</label>
-                        <input type="text" name="schdlr_lctn"  class="schdlr_lctn right" maxlength="50" placeholder="Where">
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="schdlr_msg" class="left">Message</label><br><br>
-                        <textarea name="schdlr_msg" class="schdlr_msg" maxlength="250" placeholder="Message"></textarea>
-                    </fieldset>
-
-                    <fieldset>
-                        <button type="reset" id="cancel_schdlr_btn" class="left red_btn">Cancel</button>
-                        <button type="button" id="send_meeting_btn" class="right grey_btn">Send</button>
-                    </fieldset>
-                </div>
-
-            </form>
-
-           
-	   </div>
-    </div>             
-    
-            
-            
-            
-
-            
-            
-            
-    <div data-role="page" id="delegateReply_Meeting">
-        <div data-role="header">
-            <title>Reply</title>
-        </div>
-
-        <div role="main" class="ui-content">
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center"> conference name </h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
-            </div>	
-
-            <!-- other person's profile -->		
-            
-            <div class="delegateProfile">
-
-
-                    <div class="profile_photo_div">
-                        <img class="delegateProfilePic" src="profile_placeholder.jpeg" alt="profile photo"><br>
-                    </div>
-
-
-                <form class="user_profile_form">
-                    <fieldset>
-                        <input type="text" name="f_name" maxlength="15" placeholder="David" class="f_name" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="s_name" maxlength="15" placeholder="Ford" class="s_name" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="org" maxlength="50" placeholder="AJ Limited" class="org" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <input type="text" name="role" maxlength="50" placeholder="Executive Director" class="person_role" disabled>
-                    </fieldset>
-                    <fieldset>
-                        <textarea name="bio" class="bio"  maxlength="250" placeholder="Hi!" disabled></textarea>
-                    </fieldset>		
-                </form>
-				
-	       </div>
-            <!-- schedule -->		
+							<!-- schedule -->		
             <div id="Reply_meeting_schedule" class="meeting_schedule">
 
                 
@@ -599,13 +344,156 @@
                 </fieldset>
 
             </div>
-
             
         </div>
-    </div>            
- 
+
+
+    
+    <div data-role="page" id="delegateFind_People">
+        <div data-role="header">
+		  <title>Find People</title>
+        </div>
+	
+        <div role="main" class="ui-content">
+            <!-- banner content-->
+            <div class="banner">
+                <div class="menu_icon">
+                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+                </div>			
+                <h1 class="logo center conference_name"> conference name </h1>
+                            <!-- Time Sync Info  -->	    
+                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
+                    
+                <hr style="clear:both; visibility: hidden;">
+            </div>	
+
+            <h1 class="center">Find People</h1>
+            <!-- Search Bar
+            <input id="search_bar" type="text" placeholder="Search People..." required>
+
+            <!-- List caption, initially empty but updated when search returns
+            <br><br><p id="people_list_caption"> x results found</p>-->
+
+            <!-- Returned List From Search -->
+            <div id="people_list">
+							
+            </div>	
+
+            
+	   </div>
+    </div> 
+    
+    
+    <div data-role="page" id="delegateManage_Meeting">
+        <div data-role="header">
+		  <title>Meeting Requests</title>
+        </div>
+	
+        <div role="main" class="ui-content">    
+            <!-- banner content-->
+            <div class="banner">
+                <div class="menu_icon">
+                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+                </div>			
+                <h1 class="logo center conference_name"></h1>
+                            <!-- Time Sync Info  -->	    
+                    <p class="sync_info right"> synced: <span class="sync_time">  </span> </p>
+                    
+                <hr style="clear:both; visibility: hidden;">
+            </div>	
             
             
+            <h1 class="center">Meeting Requests</h1>
+            
+           
+
+            <!-- Returned meeting list From Search -->
+            <div id="meetings_list">
+            </div>		
+
+            
+	   </div>
+    </div> 
+    
+    
+
+
+
+
+
+	<div data-role="page" id="delegatePerson_Profile">
+		<div data-role="header">
+			<title>View Profile</title>
+		</div>
+		<input type='hidden' id='selectedattendeeref' />
+		<div role="main" class="ui-content">
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name"></h1>
+				<!-- Time Sync Info  -->	    
+				<p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
+				<hr style="clear:both; visibility: hidden;">
+			</div>	
+							
+			<div class='row'><div class='twelve columns' style='display:none' id='other_profile_error'></div>
+		</div>
+
+			<div class="delegateProfile row">
+	 
+
+				<div class="two columns profile_photo_div">
+					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
+				</div>
+
+
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='other_profile_first_name'></span><span id='other_profile_last_name'></span></strong></p>
+					<p><span id='other_profile_organisation'></span>: <span id='other_profile_job_title'></span></p>
+					<p><span id='other_profile_bio'></span></p>
+				</div>
+				
+			</div>
+		
+			<!--meeting button, hide onclick and display fix meeting modal below -->	
+			<fieldset>						
+				<button type="button" id="arrange_meeting_btn" class="grey_btn">Meeting</button>
+			</fieldset>			
+			<!-- alternate view fix meeting modal visibility to be toggled with default meeting view above, JS -->
+			<div id="person_profile_meeting_schdlr_div">
+				<div class='row'>
+					<label for="createmeeting_date" class="left">Date / Time</label>
+					<input type="datetime-local" name='createmeeting_date' id='createmeeting_date' class="datetimelocal right" style='background-color: white;'>
+				</div>
+
+				<div class='row'>
+					<br><label for="schdlr_lctn" class="left">Location</label>
+					<input type="text" name="schdlr_lctn" id='schdlr_lctn' class="schdlr_lctn right" maxlength="50" placeholder="Where">
+				</div>
+
+				<div class='row'>
+					<br><label for="schdlr_msg" class="left">Message</label><br>
+					<textarea name="schdlr_msg" class="schdlr_msg" id='schdlr_msg' maxlength="250" placeholder="Message"></textarea>
+				</div>
+				
+				<div class='row'>
+					<button type="button" id="send_meeting_btn" class="right grey_btn">Send</button>
+					<button type="reset" id="cancel_schdlr_btn" class="left red_btn">Cancel</button>
+				</div>
+			</div>
+
+			<div class='errormessage alert alert-danger' id='otherprofilestatusresponse'></div>
+
+					 
+		</div>
+	</div>             
+
+
     <div data-role="page" id="delegateUser_Profile">
         <div data-role="header">
             <title>My Profile</title>
@@ -624,16 +512,14 @@
                     
                 <hr style="clear:both; visibility: hidden;">
             </div>	
-            
 			
 			
 			<h1>My Profile</h1>
 			<div id="my_profile_photo_div">
-				<img id="disply" src="user_photo.png" alt="profile photo">
-				<button id = "takepic">Choose New Picture</button>
+				<img id="profilepicture" src="user_photo.png" alt="profile photo">
+				<button id = "imagepickerprofile">Choose New Picture</button>
 			</div>
-			
-			
+			<textarea id='piccyoutput'>Stuff2</textarea> 
 			<form id="myprofileform" class="my_profile_form">
 				<fieldset>
 					<label for="f_name">Forename</label>
@@ -649,7 +535,7 @@
 				</fieldset>
 				<fieldset>
 					<label for="role">Role</label>
-					<input type="text" id="job_title" name="role" maxlength="100" placeholder="Executive Director" class="person_role">
+					<input type="text" id="job_title" name="role" maxlength="100" class="person_role">
 				</fieldset>
 				<fieldset>
 					<label for="bio">Biography</label>
@@ -668,8 +554,8 @@
 
         <h3>The Delegate</h3>
         <a href="#delegateAgenda"> <img src="agenda_icon.png" alt="agenda icon">Agenda</a>
-        <a href="#delegateManage_Meeting"> <img src="meeting_icon.png" alt="meeting icon">Meeting Requests</a>
         <a href="#delegateFind_People"> <img src="find_people_icon.png" alt="find people icon">Find People</a>
+        <a href="#delegateUser_Profile"> <img src="add_meeting.png" alt="profile icon">Create Meeting</a>
         <a href="#delegateUser_Profile"> <img src="profile_icon.png" alt="profile icon">My Profile</a>
         <a href="#delegateHome"> <img src="home_icon.png" alt="home icon">Conference Home</a>
         <a href="#delegateIndex" class="close_btn"><img src="exit_icon.jpg" alt="exit icon">Delegate Home</a>

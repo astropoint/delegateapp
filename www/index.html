@@ -282,67 +282,30 @@
             </div>
             <input type='hidden' id='selectedmeeting' />
             <!-- schedule -->		
-            <div id="Confirmed_meeting_schedule" class="meeting_schedule">
+            <div id="sent_meeting_schedule" class="meeting_schedule">
 
-                <h3 id="Confirmed_meeting_status">Status:</h3>
+                <h3 id="sent_meeting_status">Status: Sent, <span id='sent_meeting_status_span'></span></h3>
                 
-                <fieldset>
-                    <label for="schdlr_dt_tm">Date \ Time</label>
-                    <input type="text" name="schdlr_dt_tm" placeholder="YYYYMMDD -HH:MM:SS" class="schdlr_dt_tm" disabled>
-                </fieldset>
+                <div>
+                    <strong for="schdlr_dt_tm">Date &amp; Time</strong>: 
+                    <span id='sent_meeting_date'></span>
+                </div>
 
-                <fieldset>
-                    <label for="schdlr_lctn">Location</label>
-                    <input type="text" name="schdlr_lctn"  class="schdlr_lctn" maxlength="50"  placeholder="Hall" disabled>
-                </fieldset>
+                <div>
+                    <strong for="schdlr_lctn">Location</strong>: 
+                    <span id='sent_meeting_location'></span>
+                </div>
 
-                <fieldset>
-                    <label for="schdlr_msg">Message</label>
-                    <textarea name="schdlr_msg" class="schdlr_msg" maxlength="250" placeholder="Hi!" disabled></textarea>
-                </fieldset>
+                <div>
+                    <strong for="schdlr_msg">Message</strong>: <br>
+                    <span id='sent_meeting_message'></span>
+                </div>
                 
-                <fieldset>
-                    <label for="responder_msg">Response</label>
-                    <textarea name="responder_msg" class="responder_msg" maxlength="250" placeholder="Please give a reason for your choice" disabled></textarea>
-                </fieldset>
+                <div>
+                    <strong for="responder_msg">Response</strong>: <br>
+                    <span id='sent_meeting_response'></span>
+                </div>
                 
-            </div>
-
-
-							<!-- schedule -->		
-            <div id="Reply_meeting_schedule" class="meeting_schedule">
-
-                
-                <h3 id="Reply_meeting_status">Status:</h3>
-                <fieldset>
-                    <label for="schdlr_dt_tm">Date \ Time</label>
-                    <input type="text" name="schdlr_dt_tm" placeholder="YYYYMMDD -HH:MM:SS" class="schdlr_dt_tm" disabled>
-                </fieldset>
-
-                <fieldset>
-                    <label for="schdlr_lctn">Location</label>
-                    <input type="text" name="schdlr_lctn"  class="schdlr_lctn" maxlength="50"  placeholder="Hall" disabled>
-                </fieldset>
-
-                <fieldset>
-                    <label for="schdlr_msg">Message</label>
-                    <textarea name="schdlr_msg" class="schdlr_msg" maxlength="250" placeholder="Hi!" disabled></textarea>
-                </fieldset>
-                
-                <fieldset>
-                    <label for="responder_msg">Response</label>
-                    <textarea name="responder_msg" class="responder_msg" maxlength="250" placeholder="Please give a reason for your choice" ></textarea>
-                </fieldset>
-
-                <fieldset>
-                    <button type="button" id="accept_meeting_btn" class=" grey_btn">Accept</button>
-                    <button type="button" id="amend_meeting_btn" class=" grey_btn">Amend</button>
-                </fieldset>
-                <fieldset>			
-                    <button type="button" id="reject_schdlr_btn" class="red_btn">Decline</button>
-                    <button type="button" id="back_btn" class="red_btn">Back</button>
-                </fieldset>
-
             </div>
             
         </div>
@@ -363,7 +326,7 @@
                 </div>			
                 <h1 class="logo center conference_name"> conference name </h1>
                             <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
+                    <p class="sync_info right"> synced: <span class="sync_time">  </span> </p>
                     
                 <hr style="clear:both; visibility: hidden;">
             </div>	

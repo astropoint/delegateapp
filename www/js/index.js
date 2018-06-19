@@ -85,8 +85,8 @@ $(document).on('click', '.returnhome', function(){
 	
 });
 
-$(document).on('click',"#gotomeetingbutton",function() {
-	var clicked_button_Id = e.target.id;
+$(document).on('click',".gotomeetingbutton",function() {
+	var clicked_button_Id = $(this).attr('id').split("-")[1];
 	$('#selectedmeeting').val(clicked_button_Id);
 	showMeetingDetails();
 	location.href = "#delegateMeetingDetails";
@@ -529,7 +529,7 @@ function updateMeetingRequestsPage(){
 		var meetinglistarray = meetinglist.split(",");
 		var output = "";
 		meetinglistarray.forEach(function(item, index){
-			output += "<button id='"+item+"' class='gotomeetingbutton ui-btn ui-shadow ui-corner-all'>";
+			output += "<button id='meeting-"+item+"' class='gotomeetingbutton ui-btn ui-shadow ui-corner-all'>";
 			output += "<h3 class='left'>";
 			if(localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_reference") == localStorage.getItem("conf_"+curconference+"_reference")){
 				//this user is the sender
@@ -564,7 +564,28 @@ function showMeetingDetails(){
 		var meetinglistarray = meetinglist.split(",");
 		var pos = meetinglistarray.indexOf(selectedmeeting);
 		if(pos>=0){
+			var incoming = true;
+			if(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_reference") == localStorage.getItem("conf_"+curconference+"_reference")){
+				incoming = false;
+				$('#meeting_profile_first_name').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_first_name"));
+				$('#meeting_profile_last_name').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_last_name"));
+				$('#meeting_profile_organisation').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_organisation"));
+				$('#meeting_profile_job_title').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_job_title"));
+				$('#meeting_profile_bio').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_bio"));
+			}else{
+				$('#meeting_profile_first_name').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_first_name"));
+				$('#meeting_profile_last_name').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_last_name"));
+				$('#meeting_profile_organisation').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_organisation"));
+				$('#meeting_profile_job_title').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_job_title"));
+				$('#meeting_profile_bio').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_bio"));
+			}
 			
+			$('#sent_meeting_schedule').show();
+			$('#sent_meeting_status_span').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_status"));
+			$('#sent_meeting_date').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_meeting_date"));
+			$('#sent_meeting_location').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_location"));
+			$('#sent_meeting_message').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_message"));
+			$('#sent_meeting_response').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_message"));
 		}else{
 			//meeting not found, redirect to meetings page
 			location.href = "#delegateManage_Meeting";

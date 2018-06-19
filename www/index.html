@@ -241,28 +241,25 @@
     
     
     
-    <div data-role="page" id="delegateMeetingDetails">
-        <div data-role="header">
-            <title>Meeting</title>
+	<div data-role="page" id="delegateMeetingDetails">
+		<div data-role="header">
+			<title>Meeting</title>
+		</div>
 
-        </div>
+		<div role="main" class="ui-content">
 
-        <div role="main" class="ui-content">
-
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center conference_name">  </h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synced: <span class="sync_time"> </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
-            </div>	
-            
-            <!-- other person's profile-->
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name">  </h1>
+				<!-- Time Sync Info  -->	    
+				<p class="sync_info right"> synced: <span class="sync_time"> </span> </p>
+				<hr style="clear:both; visibility: hidden;">
+			</div>	
+			<!-- other person's profile-->
 			<div class="delegateProfile row">
 	 
 
@@ -272,43 +269,54 @@
 
 
 				<div class="user_profile_form ten columns">
-					<p><strong><span id='meeting_profile_first_name'></span><span id='meeting_profile_last_name'></span></strong></p>
+					<p><strong><span id='meeting_profile_first_name'></span> <span id='meeting_profile_last_name'></span></strong></p>
 					<p><span id='meeting_profile_organisation'></span>: <span id='meeting_profile_job_title'></span></p>
 					<p><span id='meeting_profile_bio'></span></p>
 				</div>
 				
 			</div>
-	       
-            </div>
-            <input type='hidden' id='selectedmeeting' />
-            <!-- schedule -->		
-            <div id="sent_meeting_schedule" class="meeting_schedule">
+					 
+		</div>
+		<input type='hidden' id='selectedmeeting' />
+		<!-- schedule -->		
+		<div id="sent_meeting_schedule" class="meeting_schedule">
 
-                <h3 id="sent_meeting_status">Status: Sent, <span id='sent_meeting_status_span'></span></h3>
-                
-                <div>
-                    <strong for="schdlr_dt_tm">Date &amp; Time</strong>: 
-                    <span id='sent_meeting_date'></span>
-                </div>
+			<h3 id="sent_meeting_status">Status: Sent, <span id='sent_meeting_status_span'></span></h3>
+			<div>
+				<strong for="schdlr_dt_tm">Date &amp; Time</strong>: 
+				<span id='sent_meeting_date'></span>
+			</div>
 
-                <div>
-                    <strong for="schdlr_lctn">Location</strong>: 
-                    <span id='sent_meeting_location'></span>
-                </div>
+			<div>
+				<strong for="schdlr_lctn">Location</strong>: 
+				<span id='sent_meeting_location'></span>
+			</div>
 
-                <div>
-                    <strong for="schdlr_msg">Message</strong>: <br>
-                    <span id='sent_meeting_message'></span>
-                </div>
-                
-                <div>
-                    <strong for="responder_msg">Response</strong>: <br>
-                    <span id='sent_meeting_response'></span>
-                </div>
-                
-            </div>
-            
-        </div>
+			<div>
+				<strong for="schdlr_msg">Message</strong>: <br>
+				<span id='sent_meeting_message'></span>
+			</div>
+									
+			<div>
+				<strong for="responder_msg">Response</strong>: <br>
+				<span id='sent_meeting_response_text'></span>
+				<span id='sent_meeting_response_input' style='display:none'><textarea id='sent_meeting_response_textarea'></textarea></span>
+			</div>
+
+			<fieldset>
+				<button type="button" id="accept_meeting_btn" style='display:none' class=" grey_btn">Accept</button>
+				<button type="button" id="amend_meeting_btn" style='display:none' class=" grey_btn">Amend</button>
+			</fieldset>
+			<fieldset>			
+				<button type="button" id="reject_meeting_btn" style='display:none' class="red_btn">Decline</button>
+				<button type="button" id="meeting_back_button" class="red_btn">Back to meetings</button>
+			</fieldset>
+								
+		</div>
+		
+		<div id='meeting_response_error' class='errormessage'></div>
+							
+	</div>
 
 
     

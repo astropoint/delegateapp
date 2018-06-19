@@ -76,7 +76,7 @@ function checkAndUpdateCurConference(){
 }
 
 
-$(document).on('click',"#login_btn",function() {		
+$(document).on('click',"#login_btn",function() {
 	location.href = "#delegateLogin";
 });
 
@@ -104,6 +104,7 @@ $(document).on('click',".conf_btn",function() {
 	var thisid = $(this).attr('id').split("_")[1];
 	
 	curconf = thisid;
+	curconference = thisid;
 	curapikey = localStorage.getItem("conf_"+thisid+"_apikey");
 	localStorage.setItem('curconference', curconf);
 	localStorage.setItem('curapikey', curapikey);
@@ -119,6 +120,10 @@ $(document).on('click', '#arrange_meeting_btn', function(e){
 $(document).on('click', '#cancel_schdlr_btn', function(e){
 	e.preventDefault();
 	$('#person_profile_meeting_schdlr_div').slideUp();
+});
+
+$(document).on('click', '#meeting_back_button', function(e){
+	location.href = "#delegateManage_Meeting";
 });
 
 $(document).on('click',"#log_in_btn",function(e){
@@ -226,11 +231,50 @@ $(document).on('click',"#updt_profile_btn",function() {
 	
 });
 
+$(document).on('click', '#reject_meeting_btn', function(){
+	var selectedmeeting = $('#selectedmeeting').val();
+	var meetinglist = localStorage.getItem("conf_"+numconferences+"_meetingslist");
+	if(isInternet){
+		if(meetinglist!=''){
+			var meetinglistarray = meetinglist.split(",");
+			var pos = meetinglistarray.indexOf(selectedmeeting);
+			if(pos>=0){
+				//now we actually reject
+				var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
+				var data = "action=respondmeeting&apikey="+thisapikey;
+				var response = $('#sent_meeting_response_textarea').val();
+				data += "meetingid="+selectedmeeting+"&type=reject&message="+response;
+				$.ajax({
+				url: apiURL,
+					data: data,
+					dataType: "json",
+					type: 'post',
+				}).done(function(response){
+					refreshProfilePage();
+					//$('#piccyoutput').html(response); 
+					if(response.success){
+						$('#otherprofilestatusresponse').html("Succesfully updated profile");
+						getMeetingRequests(showMeetingDetails);
+					}
+				});
+			}else{
+				//meeting not found, redirect to meetings page
+				location.href = "#delegateManage_Meeting";
+			}
+		}else{
+			//meeting not found, redirect to meetings page
+			location.href = "#delegateManage_Meeting";
+		}
+	}else{
+		$('#meeting_response_error').html("You need an active internet connection to respond to meeting requests");
+	}
+});
+
+
 $(document).on('click', '#send_meeting_btn', function(e){
 	e.preventDefault();
 	$('#otherprofilestatusresponse').hide();
 	if(isInternet){
-		alert($('#createmeeting_date').val());
 		if($('#createmeeting_date').val()!=''){
 			var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
 			var data = "action=requestmeeting&apikey="+thisapikey;
@@ -585,7 +629,16 @@ function showMeetingDetails(){
 			$('#sent_meeting_date').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_meeting_date"));
 			$('#sent_meeting_location').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_location"));
 			$('#sent_meeting_message').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_message"));
-			$('#sent_meeting_response').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_message"));
+			$('#sent_meeting_response_text').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_message"));
+			
+			if(incoming && localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_reference") == 'Pending'){
+				//can only allow buttons if we are the receiving party and it's still pending
+				$('#accept_meeting_btn').show();
+				$('#amend_meeting_btn').show();
+				$('#reject_meeting_btn').show();
+				$('#sent_meeting_response_input').show();
+				$('#sent_meeting_response_text').hide();
+			}
 		}else{
 			//meeting not found, redirect to meetings page
 			location.href = "#delegateManage_Meeting";

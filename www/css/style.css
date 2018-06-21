@@ -243,7 +243,8 @@ img { max-width: 100%;}
 	border-radius: 10px;
 	margin: 0.5em 0 0.5em 0;
 	background-color: #c8c8c8;
-	cursor:pointer;}
+	cursor:pointer;
+	height: auto;}
 	
 #agenda_list p {
 	text-align:left;
@@ -394,6 +395,13 @@ textarea {
 	border-radius:5px;
 	background-color: #f8d7da;
 	color: #721c24; 
+}
+
+.successmessage{
+	text-align:center;
+	border-radius:5px;
+	color: #155724;
+	background-color: #d4edda;
 }
 
 .meeting_schedule{

@@ -210,9 +210,9 @@
                     <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
                     <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
                 </div>			
-                <h1 class="logo center"> conference name </h1>
+                <h1 class="logo center conference_name"> conference name </h1>
                             <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
+                    <p class="sync_info right"> synced: <span class="sync_time">  </span> </p>
                     
                 <hr style="clear:both; visibility: hidden;">
             </div>	
@@ -225,13 +225,7 @@
 
             <!-- Returned List From Search -->
             <div id="agenda_list">
-                <!-- list of button items to be dynamically created with JS
-                <button idsquiggle3 class="ui-btn ui-shadow ui-corner-all">
-                    <p class="bold">Event name <br>
-                        Location<br>
-                        <span class="grey_txt"> 4/2/2018 16:30 </span>
-                    </p>
-                </button>	-->		
+                <svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>
             </div>
 
           
@@ -281,15 +275,17 @@
 		<!-- schedule -->		
 		<div id="sent_meeting_schedule" class="meeting_schedule">
 
-			<h3 id="sent_meeting_status">Status: Sent, <span id='sent_meeting_status_span'></span></h3>
+			<h3 id="sent_meeting_status">Status: <span id='sent_meeting_direction_span'></span>, <span id='sent_meeting_status_span'></span></h3>
 			<div>
 				<strong for="schdlr_dt_tm">Date &amp; Time</strong>: 
 				<span id='sent_meeting_date'></span>
+				<span id='sent_meeting_rearrange_date_span' style='display:none'><input type='datetime-local' id='sent_meeting_rearrange_date'/></span>
 			</div>
 
 			<div>
 				<strong for="schdlr_lctn">Location</strong>: 
 				<span id='sent_meeting_location'></span>
+				<span id='sent_meeting_rearrange_location_span' style='display:none'><input type='text' id='sent_meeting_rearrange_location'/></span>
 			</div>
 
 			<div>
@@ -306,6 +302,7 @@
 			<fieldset>
 				<button type="button" id="accept_meeting_btn" style='display:none' class=" grey_btn">Accept</button>
 				<button type="button" id="amend_meeting_btn" style='display:none' class=" grey_btn">Amend</button>
+				<button type="button" id="rearrange_meeting_send_btn" style='display:none' class=" grey_btn">Send request</button>
 			</fieldset>
 			<fieldset>			
 				<button type="button" id="reject_meeting_btn" style='display:none' class="red_btn">Decline</button>
@@ -315,6 +312,7 @@
 		</div>
 		
 		<div id='meeting_response_error' class='errormessage'></div>
+		<div id='meeting_response_success' class='successmessage'></div>
 							
 	</div>
 

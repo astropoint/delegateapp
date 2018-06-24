@@ -92,6 +92,12 @@ $(document).on('click',".gotomeetingbutton",function() {
 	location.href = "#delegateMeetingDetails";
 });
 
+$(document).on('click',".gotoseminar",function() {
+	var clicked_button_Id = $(this).attr('id').split("-")[1];
+	$('#selectedseminar').val(clicked_button_Id);
+	showSeminarDetails();
+	location.href = "#delegateSeminarDetails";
+});
 
 
 $(document).on('click',".conf_btn_delete",function(e){
@@ -749,7 +755,7 @@ function updateAgendaPage(clearint){
 			output += "<span class='grey_txt'>"+item['date']+"</span>";
 			output += "</h2></button>";
 		}else if(item['type']=='Seminar'){
-			output += "<button id='seminaragenda-"+item['id']+"' class='ui-btn ui-shadow ui-corner-all'>";
+			output += "<button id='seminaragenda-"+item['id']+"' class='gotoseminar ui-btn ui-shadow ui-corner-all'>";
 			output += "<h2>Seminar "+item['reference']+": "+item['name']+"<br>";
 			if(typeof(item['location']!='')!==null && item['location']!== null && item['location']!='null' && item['location']!=''){
 				output += item['location']+"<br>";
@@ -878,6 +884,44 @@ function showMeetingDetails(){
 	}
 }
 
+function showSeminarDetails(){
+	var selectedseminar = $('#selectedseminar').val();
+	var seminarlist = localStorage.getItem("conf_"+numconferences+"_seminarlist");
+	if(seminarlist!=''){
+		var seminarlistarray = seminarlist.split(",");
+		var pos = seminarlistarray.indexOf(selectedseminar);
+		if(pos>=0){
+			var namedetails = "";
+			var seminar_reference = localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_seminar_reference");
+			if(typeof(seminar_reference)!==null && seminar_reference!=null && seminar_reference!='' && seminar_reference!='null'){
+				namedetails += seminar_reference + ": ";
+			}
+			namedetails += localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_seminar_name");
+			$('#seminar_page_name').html(namedetails);
+			
+			var timedetails = "";
+			timedetails += localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_start_time");
+			var end_time = localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_end_time");
+			if(typeof(end_time)!==null && end_time!=null && end_time!='' && end_time!='null'){
+				timedetails += " to "+end_time;
+			}
+			$('#seminar_page_time').html(timedetails);
+			
+			var location = localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_location");
+			if(typeof(location)!==null && location!=null && location!='' && location!='null'){
+				$('#seminar_page_location').html(location);
+			}
+			
+		}else{
+			//meeting not found, redirect to meetings page
+			location.href = "#delegateAgenda";
+		}
+	}else{
+		//meeting not found, redirect to meetings page
+		location.href = "#delegateAgenda";
+	}
+}
+
 function clearConference(conferenceid){
 	localStorage.setItem("conf_"+conferenceid+"_active", 0);
 	
@@ -951,8 +995,6 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 		case "delegateAgenda":
 			updateAgenda();
 			break;
-		case "delegateConfirmed_Meeting":
-			break;
 		case "delegateFind_People":
 			getAttendeeList();
 			break;
@@ -968,6 +1010,9 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 		case "delegateUser_Profile":
 			refreshProfilePage();
 			$('#profilestatusresponse').hide();
+			break;
+		case "delegateSeminarDetails":
+			showSeminarDetails();
 			break;
 		default:
 			alert("NO PAGE INIT FUNCTION")

@@ -40,7 +40,7 @@
         <!--I think this CSS applies to all pages here-->        
     <link rel="stylesheet" href="css/skeleton.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>The Delegate</title>
+    <title>The Delegate App</title>
 
 </head>
 
@@ -313,6 +313,42 @@
 		
 		<div id='meeting_response_error' class='errormessage'></div>
 		<div id='meeting_response_success' class='successmessage'></div>
+							
+	</div>
+    
+	<div data-role="page" id="delegateSeminarDetails">
+		<div data-role="header">
+			<title>Seminar</title>
+		</div>
+
+		<div role="main" class="ui-content">
+
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name">  </h1>
+				<!-- Time Sync Info  -->	    
+				<p class="sync_info right"> synced: <span class="sync_time"> </span> </p>
+				<hr style="clear:both; visibility: hidden;">
+			</div>	
+			<!-- other person's profile-->
+			<div class="delegateProfile row">
+
+
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='seminar_page_name'></span></strong></p>
+					<p>Date/Time: <span id='seminar_page_time'></span></p>
+					<p><span id='seminar_page_location'></span></p>
+				</div>
+				
+			</div>
+					 
+		</div>
+		<input type='hidden' id='selectedseminar' />
+		
 							
 	</div>
 

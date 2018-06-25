@@ -216,7 +216,7 @@ $(document).on('click',"#updt_profile_btn",function() {
 		data += "&first_name="+encodeURIComponent($('#delegateUser_Profile').find('input[name="f_name"]').val());
 		data += "&last_name="+encodeURIComponent($('#delegateUser_Profile').find('input[name="s_name"]').val());
 		data += "&organisation="+encodeURIComponent($('#delegateUser_Profile').find('input[name="org"]').val());
-		if( typeof(receiptPicture)!==null && receiptPicture!=null && receiptPicture!=''){
+		if( typeof(receiptPicture)!==null && receiptPicture!=null && receiptPicture!='' && receiptPicture!='null'){
 			data += "&profileimage="+encodeURIComponent(receiptPicture);
 		}
 		$('#piccyoutput').val(receiptPicture);
@@ -361,11 +361,7 @@ $(document).on('click', '#send_meeting_btn', function(e){
 				dataType: "json",
 				type: 'post',
 			}).done(function(response){
-				refreshProfilePage();
-				//$('#piccyoutput').html(response); 
-				if(response.success){
-					$('#otherprofilestatusresponse').html("Succesfully updated profile");
-				}
+				location.href = '#delegateAgenda';
 			});
 		}else{
 			$('#otherprofilestatusresponse').show();
@@ -511,7 +507,8 @@ function getAttendeeProfile(attendeeref){
 				$('#other_profile_organisation').html(response.data.organisation);
 				$('#other_profile_job_title').html(response.data.job_title);
 				$('#other_profile_bio').html(response.data.bio);
-				if(typeof(response.data.profileimg_thumb)===null || response.data.profileimg_thumb==''|| response.data.profileimg_thumb=="null"){
+				console.log(response.data.profileimg_thumb);
+				if(typeof(response.data.profileimg_thumb)===null || typeof(response.data.profileimg_thumb)==null|| response.data.profileimg_thumb==null || response.data.profileimg_thumb==''|| response.data.profileimg_thumb=="null"|| response.data.profileimg_thumb=='null'){
 					$('#other_profile_img').attr('src', "profile_placeholder.jpeg");
 				}else{
 					$('#other_profile_img').attr('src', "https://reg.bookmein2.com/images/profile/"+response.data.conferenceid+"/"+response.data.profileimg_thumb);

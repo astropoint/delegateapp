@@ -99,6 +99,34 @@ $(document).on('click',".gotoseminar",function() {
 	location.href = "#delegateSeminarDetails";
 });
 
+$(document).on('click', ".speakerlist", function(e){
+	e.preventDefault();
+	var clicked_button_Id = $(this).attr('id').split("-")[1];
+	$('#selectedspeaker').val(clicked_button_Id);
+	showSpeakerDetails();
+	
+	location.href = "#delegateSpeaker_Profile";
+	
+});
+
+$(document).on('keyup', '#search_people_bar', function(e){
+	var searchstring = $(this).val().toLowerCase();
+	$('.personlist_name').each(function(){
+		if(searchstring==''){
+			//nothing entiered, so show all
+			$(this).parent().show();
+		}else{
+			var thisname = $(this).html().toLowerCase();
+			if(thisname.indexOf(searchstring)>=0){
+				$(this).parent().show();
+			}else{
+				$(this).parent().hide();
+			}
+		}
+		
+	});
+});
+
 
 $(document).on('click',".conf_btn_delete",function(e){
 	var thisid = $(this).attr('id').split("_")[1];
@@ -187,6 +215,7 @@ $(document).on('click',"#log_in_btn",function(e){
 					localStorage.setItem("conf_"+numconferences+"_name", response.data.conf_name);
 					localStorage.setItem("conf_"+numconferences+"_meetingslist", "");
 					localStorage.setItem("conf_"+numconferences+"_seminarist", "");
+					localStorage.setItem("conf_"+numconferences+"_speakerslist", "");
 					localStorage.setItem("conf_"+numconferences+"_active", 1);
 					
 					localStorage.setItem("numconferences", numconferences);
@@ -375,9 +404,9 @@ $(document).on('click', '#send_meeting_btn', function(e){
 });
 
 //sets target attendeeref when you click a person, then loads data and redirects to profile
-$(document).on('click',".clickbuttongetgetperson",function(e) {     
-	var clicked_button_Id = e.target.id;
-	getAttendeeProfile(clicked_button_Id);
+$(document).on('click',".clickbuttongetgetperson",function(e) {
+	var thisid = $(this).attr('id').split("-")[1];
+	getAttendeeProfile(thisid);
 	location.href = "#delegatePerson_Profile";
 }); 
 
@@ -463,10 +492,10 @@ function getAttendeeList(){
 				var output = "";
 				for(var i = 0;i<response.data.attendees.length;i++){
 					if(response.data.attendees[i].reference != localStorage.getItem("conf_"+curconference+"_reference")){
-						output += "<button class='personlist ui-btn ui-shadow ui-corner-all'>\n";
-						output += "<p>"+response.data.attendees[i].first_name+" "+response.data.attendees[i].last_name+"</p>";
+						output += "<button id='person-"+response.data.attendees[i].reference+"' class='clickbuttongetgetperson personlist ui-btn ui-shadow ui-corner-all'>\n";
+						output += "<p class='personlist_name'>"+response.data.attendees[i].first_name+" "+response.data.attendees[i].last_name+"</p>";
 						output += "<div><p>"+response.data.attendees[i].organisation+"</p>";
-						output += "<h3 id='"+response.data.attendees[i].reference+"' class='clickbuttongetgetperson' >more...</h3>";
+						output += "<h3 class='morebutton' >more...</h3>";
 						output += "</div></button>";
 					}
 				}
@@ -481,6 +510,112 @@ function getAttendeeList(){
 	}
 }
 
+function getSpeakers(callback){
+	if(isInternet){
+		var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
+		var data = "action=getspeakers&apikey="+thisapikey;
+		$.ajax({
+			url: apiURL,
+			data: data,
+			dataType: "json",
+			type: 'post',
+		}).done(function(response){
+			if(response.success){
+				var speakerslist = [];
+				for(var i=0;i<response.data.speakers.length;i++){
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_first_name", response.data.speakers[i].first_name);
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_last_name", response.data.speakers[i].last_name);
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_organisation", response.data.speakers[i].organisation);
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_job_title", response.data.speakers[i].job_title);
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_email", response.data.speakers[i].email);
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_bio", response.data.speakers[i].bio);
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_profile_pic", response.data.speakers[i].profile_pic);
+					localStorage.setItem("conf_"+curconference+"_speakers_"+response.data.speakers[i].id+"_id", response.data.speakers[i].id);
+					speakerslist.push(response.data.speakers[i].id);
+				}
+				localStorage.setItem("conf_"+curconference+"_speakerslist", speakerslist.join(","));
+				if(callback!=''){
+					callback();
+				}
+			}
+		});
+	}else{
+		if(callback!=''){
+			callback();
+		}
+	}
+}
+
+function showSpeakers(){
+	
+	var speakerslist = localStorage.getItem("conf_"+numconferences+"_speakerslist");
+	if(speakerslist!=''){
+		var speakerslistarray = speakerslist.split(",");
+		var output = "";
+		speakerslistarray.forEach(function(item, index){
+				output += "<button class='speakerlist ui-btn ui-shadow ui-corner-all' id='speaker-"+localStorage.getItem("conf_"+curconference+"_speakers_"+item+"_id")+"'>";
+				output += "<p>"+localStorage.getItem("conf_"+curconference+"_speakers_"+item+"_first_name")+ " " + localStorage.getItem("conf_"+curconference+"_speakers_"+item+"_last_name") +"</p>";
+				output += "<div><p>"+localStorage.getItem("conf_"+curconference+"_speakers_"+item+"_organisation")+"</p>";
+				output += "</div></button>";
+		});
+		$('#speakers_list').html(output);
+	}
+	
+}
+
+function showSpeakerDetails(){
+	
+	var selectedspeaker = $('#selectedspeaker').val();
+	var speakerslist = localStorage.getItem("conf_"+numconferences+"_speakerslist");
+	if(speakerslist!=''){
+		var speakerslistarray = speakerslist.split(",");
+		var pos = speakerslistarray.indexOf(selectedspeaker);
+		if(pos>=0){
+			
+			$('#speaker_first_name').html(localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_first_name"));
+			$('#speaker_last_name').html(localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_last_name"));
+			$('#speaker_organisation').html(localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_organisation"));
+			$('#speaker_job_title').val(localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_job_title"));
+			
+			var job_title = localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_job_title");
+			if(typeof(job_title)===null || typeof(job_title)==null|| job_title==null || job_title==''|| job_title=="null"|| job_title=='null'){
+				$('#speaker_job_title').html("");
+			}else{
+				$('#speaker_job_title').html(" - "+job_title);
+			}
+			
+			var bio = localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_bio");
+			if(typeof(bio)===null || typeof(bio)==null|| bio==null || bio==''|| bio=="null"|| bio=='null'){
+				$('#speakerbio').html("");
+			}else{
+				$('#speakerbio').html(bio);
+			}
+			
+			var profileimage = localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_profile_pic");
+			if(!isInternet || typeof(profileimage)===null || typeof(profileimage)==null|| profileimage==null || profileimage==''|| profileimage=="null"|| profileimage=='null'){
+				$('#speaker_profile_img').attr('src', 'profile_placeholder.jpeg');
+			}else{
+				$('#speaker_profile_img').attr('src', profileimage);
+			}
+			
+		}else{
+			//speaker not found, redirect to speakers list
+			location.href = "#delegateSpeakers_List";
+		}
+	}else{
+		//speaker not found, redirect to speakers list
+		location.href = "#delegateSpeakers_List";
+	}
+}
+
+function checkSpeakerSelected(){
+	var thisspeakerid = $('#selectedspeaker').val();
+	if(thisspeakerid==''){
+		location.href = "#delegateSpeakers_List";
+	}
+	
+}
+
 function checkUserSelected(){
 	var thisattendeeref = $('#selectedattendeeref').val();
 	if(thisattendeeref==''){
@@ -492,7 +627,7 @@ function getAttendeeProfile(attendeeref){
 	$('#other_profile_error').hide();
 	if(isInternet){
 		var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
-		var data = "action=getattendee&apikey="+thisapikey+"&attendeeref="+localStorage.getItem("conf_"+curconference+"_reference");
+		var data = "action=getattendee&apikey="+thisapikey;
 		data += "&attendeeref="+attendeeref;
 		$('#selectedattendeeref').val(attendeeref);
 		$.ajax({
@@ -507,7 +642,7 @@ function getAttendeeProfile(attendeeref){
 				$('#other_profile_organisation').html(response.data.organisation);
 				$('#other_profile_job_title').html(response.data.job_title);
 				$('#other_profile_bio').html(response.data.bio);
-				console.log(response.data.profileimg_thumb);
+				
 				if(typeof(response.data.profileimg_thumb)===null || typeof(response.data.profileimg_thumb)==null|| response.data.profileimg_thumb==null || response.data.profileimg_thumb==''|| response.data.profileimg_thumb=="null"|| response.data.profileimg_thumb=='null'){
 					$('#other_profile_img').attr('src', "profile_placeholder.jpeg");
 				}else{
@@ -1010,6 +1145,12 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 			break;
 		case "delegateSeminarDetails":
 			showSeminarDetails();
+			break;
+		case "delegateSpeakers_List":
+			getSpeakers(showSpeakers);
+			break;
+		case "delegateSpeaker_Profile":
+			checkSpeakerSelected();
 			break;
 		default:
 			alert("NO PAGE INIT FUNCTION")

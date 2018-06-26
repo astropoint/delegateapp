@@ -127,10 +127,6 @@
                     <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
                 </div>			
                 <h1 class="logo center conference_name"></h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
             </div>	
 
 
@@ -211,10 +207,6 @@
                     <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
                 </div>			
                 <h1 class="logo center conference_name"> conference name </h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synced: <span class="sync_time">  </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
             </div>	
             
 
@@ -249,9 +241,6 @@
 					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 				</div>			
 				<h1 class="logo center conference_name">  </h1>
-				<!-- Time Sync Info  -->	    
-				<p class="sync_info right"> synced: <span class="sync_time"> </span> </p>
-				<hr style="clear:both; visibility: hidden;">
 			</div>	
 			<!-- other person's profile-->
 			<div class="delegateProfile row">
@@ -330,9 +319,6 @@
 					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 				</div>			
 				<h1 class="logo center conference_name">  </h1>
-				<!-- Time Sync Info  -->	    
-				<p class="sync_info right"> synced: <span class="sync_time"> </span> </p>
-				<hr style="clear:both; visibility: hidden;">
 			</div>	
 			<!-- other person's profile-->
 			<div class="delegateProfile row">
@@ -367,18 +353,10 @@
                     <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
                 </div>			
                 <h1 class="logo center conference_name"> conference name </h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synced: <span class="sync_time">  </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
             </div>	
 
             <h1 class="center">Find People</h1>
-            <!-- Search Bar
-            <input id="search_bar" type="text" placeholder="Search People..." required>
-
-            <!-- List caption, initially empty but updated when search returns
-            <br><br><p id="people_list_caption"> x results found</p>-->
+            <input id="search_people_bar" type="text" placeholder="Search People..." />
 
             <!-- Returned List From Search -->
             <div id="people_list">
@@ -390,42 +368,97 @@
     </div> 
     
     
-    <div data-role="page" id="delegateManage_Meeting">
-        <div data-role="header">
-		  <title>Meeting Requests</title>
-        </div>
+	<div data-role="page" id="delegateManage_Meeting">
+		<div data-role="header">
+		<title>Meeting Requests</title>
+	</div>
+		
+	<div role="main" class="ui-content">    
+		<!-- banner content-->
+		<div class="banner">
+			<div class="menu_icon">
+				<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+				<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+			</div>			
+			<h1 class="logo center conference_name"></h1>
+		</div>	
+
+		<h1 class="center">Meeting Requests</h1>
+
+							<!-- Returned meeting list From Search -->
+		<div id="meetings_list">
+		</div>		
+
+			
+		</div>
+	</div>
 	
-        <div role="main" class="ui-content">    
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center conference_name"></h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> synced: <span class="sync_time">  </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
-            </div>	
-            
-            
-            <h1 class="center">Meeting Requests</h1>
-            
-           
+	<div data-role="page" id="delegateSpeakers_List">
+		<div data-role="header">
+		<title>Speakers</title>
+	</div>
+		
+	<div role="main" class="ui-content">    
+		<!-- banner content-->
+		<div class="banner">
+			<div class="menu_icon">
+				<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+				<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+			</div>			
+			<h1 class="logo center conference_name"></h1>
+		</div>	
 
-            <!-- Returned meeting list From Search -->
-            <div id="meetings_list">
-            </div>		
+		<h1 class="center">List of Speakers</h1>
 
-            
-	   </div>
-    </div> 
-    
-    
+							<!-- Returned meeting list From Search -->
+		<div id="speakers_list">
+		</div>		
+
+			
+		</div>
+	</div> 
 
 
+	<div data-role="page" id="delegateSpeaker_Profile">
+		<div data-role="header">
+			<title>View Speaker</title>
+		</div>
+		<input type='hidden' id='selectedattendeeref' />
+		<div role="main" class="ui-content">
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name"></h1>
+			</div>	
+							
+			<div class='row'><div class='twelve columns' style='display:none' id='speaker_error'></div>
+			</div>
+			<input type='hidden' id='selectedspeaker' value='' />
+			<div class="delegateSpeaker row">
+	 
 
+				<div class="two columns profile_photo_div">
+					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="speaker_profile_img" alt="profile photo"><br>
+				</div>
+
+
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='speaker_first_name'></span> <span id='speaker_last_name'></span></strong></p>
+					<p><span id='speaker_organisation'></span><span id='speaker_job_title'></span></p>
+				</div>
+				
+			</div>
+			
+			<div class='row' id='speakerbio'>
+			
+			</div>
+
+					 
+		</div>
+	</div>
 
 
 	<div data-role="page" id="delegatePerson_Profile">
@@ -441,9 +474,6 @@
 					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 				</div>			
 				<h1 class="logo center conference_name"></h1>
-				<!-- Time Sync Info  -->	    
-				<p class="sync_info right"> synched: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
-				<hr style="clear:both; visibility: hidden;">
 			</div>	
 							
 			<div class='row'><div class='twelve columns' style='display:none' id='other_profile_error'></div>
@@ -458,7 +488,7 @@
 
 
 				<div class="user_profile_form ten columns">
-					<p><strong><span id='other_profile_first_name'></span><span id='other_profile_last_name'></span></strong></p>
+					<p><strong><span id='other_profile_first_name'></span> <span id='other_profile_last_name'></span></strong></p>
 					<p><span id='other_profile_organisation'></span>: <span id='other_profile_job_title'></span></p>
 					<p><span id='other_profile_bio'></span></p>
 				</div>
@@ -512,10 +542,6 @@
                     <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
                 </div>			
                 <h1 class="logo center conference_name"></h1>
-                            <!-- Time Sync Info  -->	    
-                    <p class="sync_info right"> Synced: <span class="sync_time"> !!! Dynamically fill this span tag of data/time with Javascript </span> </p>
-                    
-                <hr style="clear:both; visibility: hidden;">
             </div>	
 			
 			
@@ -560,6 +586,7 @@
         <h3>The Delegate</h3>
         <a href="#delegateAgenda"> <img src="agenda_icon.png" alt="agenda icon">Agenda</a>
         <a href="#delegateFind_People"> <img src="find_people_icon.png" alt="find people icon">Find People</a>
+        <a href="#delegateSpeakers_List"><img src="icon_speakers.png" alt="home icon">Speakers</a></a>
         <a href="#delegateFind_People"> <img src="add_meeting.png" alt="profile icon">Create Meeting</a>
         <a href="#delegateUser_Profile"> <img src="profile_icon.png" alt="profile icon">My Profile</a>
         <a href="#delegateHome"> <img src="home_icon.png" alt="home icon">Conference Home</a>

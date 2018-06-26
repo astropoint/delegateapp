@@ -310,30 +310,22 @@ textarea {
 	width:100%;
 }
 
-.clickbuttongetgetperson{
+.morebutton{
 	color: grey;
 	font-size: 1em;
 }
 
-	
-	
-
 /*############ manage meeting page ############*/
 #meeting_filter li {
 	display: inline;
-	margin: 0 2em 0 2em;}
+	margin: 0 2em 0 2em;
+}
 
 #meeting_filter a {
-	text-decoration:none;}
+	text-decoration:none;
+}
 	
 
-	
-/**/
-
-	
-	
-	
-	
 /*############ general classes ############*/
 .right {
 	float:right;}

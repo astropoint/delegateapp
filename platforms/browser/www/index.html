@@ -1,0 +1,599 @@
+
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'self' data: gap: https://* 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
+        <!-- Adding jQuery -->
+    <script type="text/javascript" src="./js/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+        <!-- Add jQuery mobile -->
+    <link rel="stylesheet" href="./js/jquery.mobile-1.4.5.css" />
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
+        <!-- All js to go in here inside ondeviceready fn -->
+    <script type="text/javascript" src="js/index.js" defer></script>
+        <!--I think this CSS applies to all pages here-->        
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>The Delegate App</title>
+
+</head>
+
+<body>
+    
+
+           
+    
+    
+    <div data-role="page" id="delegateIndex">
+        <div data-role="header">		
+            <title>Delegate Start Page</title>		
+        </div>
+
+        <div role="main" class="ui-content">
+            <!-- Background image & button -->
+            <div id="start_pg_bg_img">
+                <img src="start_pg_bg_img.png" alt="background image">
+                <button id="login_btn"> ADD CONFERENCE </button>
+            </div>
+
+
+            <!-- Buttons of logged in conferences to be added with JQuery-->
+            <div id="user_conferences">		
+            </div>			
+
+            
+        </div>
+    </div>
+    
+    
+    
+    
+    <div data-role="page" id="delegateLogin">
+        <div data-role="header">	
+            <title>Login Page</title>
+        </div> 
+
+        <div role="main" class="ui-content">
+            <h1 id="delegate_text">Delegate</h1>
+            <form id="login_form"><br> 
+                <input type="email" placeholder="Email address" name="email" required><br>
+                <input type="text" placeholder="Event Reference" name="event_id" required><br>
+                <input type="text" placeholder="Attendee ID" name="attendee_id" required><br>
+                <a href="#" onclick="show_terms_modal(); return false;" id="gdpr_terms_link">Terms of use &nbsp; | &nbsp; privacy </a><br><br>
+                <button type="button" id="log_in_btn">Login</button>
+                
+							<div class='ajaxresponse' id='login_response'></div>
+            </form>
+             
+            <div class='centeralign'>
+							<button class='returnhome'>Return home</button>
+            </div>
+
+            <!-- Modal privacy and terms text, toggle visibility with JS on privacy link click-->
+            <div id="gdpr_terms_modal">
+                <div id="gdpr_terms_sttmnt">
+                    <p class="close_btn right">&times;</p>
+                    <p>privacy and terms text should be placed in this Modal.. <br>visibility to be toggled on click</p>
+                </div>
+            </div>				
+			
+        </div>
+    </div>
+
+    
+    <div data-role="page" id="delegateHome">
+        <div data-role="header">
+            <title>Home</title>
+            <script id="panel-init">
+                $(function() {
+                $( "body>[data-role='panel']" ).panel();
+                });
+	       </script>
+
+        </div>
+
+        <div role="main" class="ui-content">
+            
+            <!-- banner content-->
+            <div class="banner">
+                <div class="menu_icon">
+                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+                </div>			
+                <h1 class="logo center conference_name"></h1>
+            </div>	
+
+
+            <!--Conference location & date -->
+            <h3><span class="conference_name"></span></h3>
+            
+
+
+            <!-- button to toggle more info div below -->
+            <div id="less_conference_info">
+                <!--Conf Info visibility button? -->
+                <p class="center"><a href="#" onclick="toggle_content('less_conference_info', 'more_conference_info')">more info &#9660;</a></p>
+
+                <!-- Horizontal rule -->
+                <hr><br>			
+
+                <!-- Home Page Action Tabs -->		
+                <div id="home_action_tabs">
+                    <section>
+                        <div class="left right_border" onclick="window.location='#delegateAgenda';">
+                            <img src="agenda_icon.png" alt="agenda icon">
+                            <h3> Agenda </h3>
+                        </div>
+
+                        <div class="right" onclick="window.location='#delegateManage_Meeting';">				
+                            <img src="meeting_icon.png" alt="meeting icon">
+                            <h3> Meeting <br> Requests </h3>
+                        </div>
+                    </section>
+                    <!-- Horizontal rule -->
+                    <hr>
+                    <section>
+                        <div class="left right_border" onclick="window.location='#delegateFind_People';">			
+                            <img src="find_people_icon.png" alt="find people icon">
+                            <h3> Find People </h3>
+                        </div>
+
+                        <div class="right" onclick="window.location='#delegateFind_People';">	
+                            <img src="add_meeting.png" alt="meeting icon">
+                            <h3> Create <br> Meeting </h3>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+
+            <!-- more conference info div -->
+            <div id="more_conference_info" class="hide">					
+                <img id="conference_image" src="conference_image.png" alt="conference image">
+
+                <!--More Conference Info to go here, JS-->					
+                <p id='conference_desc'></p>
+
+                <!-- Address and maps icon -->
+                <div id="addr_icon" class="left">
+                    <a href='' id='conf_map_link_a'><img src="maps_icon.png" alt="open in maps" id='conf_map_link'></a>
+                </div>
+                
+
+                <!-- Conf Info visibility button? -->
+                <p id="less_info_btn"><a href="#" onclick="toggle_content('more_conference_info', 'less_conference_info')">less info &#9650;</a></p>			
+            </div>
+
+
+        </div>
+    </div> 
+
+    <div data-role="page" id="delegateAgenda">
+        <div data-role="header">
+            <title>Agenda</title>
+        </div>
+
+        <div role="main" class="ui-content">
+            <!-- banner content-->
+            <div class="banner">
+                <div class="menu_icon">
+                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+                </div>			
+                <h1 class="logo center conference_name"> conference name </h1>
+            </div>	
+            
+
+            <h1 class="center">Agenda</h1>
+
+            <!-- Agenda List caption update with JS
+            <p id="agenda_list_caption"> 2 confirmed meetings</p> -->
+
+            <!-- Returned List From Search -->
+            <div id="agenda_list">
+                <svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>
+            </div>
+
+          
+        </div>
+    </div>
+    
+    
+    
+    
+	<div data-role="page" id="delegateMeetingDetails">
+		<div data-role="header">
+			<title>Meeting</title>
+		</div>
+
+		<div role="main" class="ui-content">
+
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name">  </h1>
+			</div>	
+			<!-- other person's profile-->
+			<div class="delegateProfile row">
+	 
+
+				<div class="two columns profile_photo_div">
+					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
+				</div>
+
+
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='meeting_profile_first_name'></span> <span id='meeting_profile_last_name'></span></strong></p>
+					<p><span id='meeting_profile_organisation'></span>: <span id='meeting_profile_job_title'></span></p>
+					<p><span id='meeting_profile_bio'></span></p>
+				</div>
+				
+			</div>
+					 
+		</div>
+		<input type='hidden' id='selectedmeeting' />
+		<!-- schedule -->		
+		<div id="sent_meeting_schedule" class="meeting_schedule">
+
+			<h3 id="sent_meeting_status">Status: <span id='sent_meeting_direction_span'></span>, <span id='sent_meeting_status_span'></span></h3>
+			<div>
+				<strong for="schdlr_dt_tm">Date &amp; Time</strong>: 
+				<span id='sent_meeting_date'></span>
+				<span id='sent_meeting_rearrange_date_span' style='display:none'><input type='datetime-local' id='sent_meeting_rearrange_date'/></span>
+			</div>
+
+			<div>
+				<strong for="schdlr_lctn">Location</strong>: 
+				<span id='sent_meeting_location'></span>
+				<span id='sent_meeting_rearrange_location_span' style='display:none'><input type='text' id='sent_meeting_rearrange_location'/></span>
+			</div>
+
+			<div>
+				<strong for="schdlr_msg">Message</strong>: <br>
+				<span id='sent_meeting_message'></span>
+			</div>
+									
+			<div>
+				<strong for="responder_msg">Response</strong>: <br>
+				<span id='sent_meeting_response_text'></span>
+				<span id='sent_meeting_response_input' style='display:none'><textarea id='sent_meeting_response_textarea'></textarea></span>
+			</div>
+
+			<fieldset>
+				<button type="button" id="accept_meeting_btn" style='display:none' class=" grey_btn">Accept</button>
+				<button type="button" id="amend_meeting_btn" style='display:none' class=" grey_btn">Amend</button>
+				<button type="button" id="rearrange_meeting_send_btn" style='display:none' class=" grey_btn">Send request</button>
+			</fieldset>
+			<fieldset>			
+				<button type="button" id="reject_meeting_btn" style='display:none' class="red_btn">Decline</button>
+				<button type="button" id="meeting_back_button" class="red_btn">Back to meetings</button>
+			</fieldset>
+								
+		</div>
+		
+		<div id='meeting_response_error' class='errormessage'></div>
+		<div id='meeting_response_success' class='successmessage'></div>
+							
+	</div>
+    
+	<div data-role="page" id="delegateSeminarDetails">
+		<div data-role="header">
+			<title>Seminar</title>
+		</div>
+
+		<div role="main" class="ui-content">
+
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name">  </h1>
+			</div>	
+			<!-- other person's profile-->
+			<div class="delegateProfile row">
+
+
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='seminar_page_name'></span></strong></p>
+					<p>Date/Time: <span id='seminar_page_time'></span></p>
+					<p><span id='seminar_page_location'></span></p>
+				</div>
+				
+			</div>
+					 
+		</div>
+		<input type='hidden' id='selectedseminar' />
+		
+							
+	</div>
+
+
+    
+    <div data-role="page" id="delegateFind_People">
+        <div data-role="header">
+		  <title>Find People</title>
+        </div>
+	
+        <div role="main" class="ui-content">
+            <!-- banner content-->
+            <div class="banner">
+                <div class="menu_icon">
+                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+                </div>			
+                <h1 class="logo center conference_name"> conference name </h1>
+            </div>	
+
+            <h1 class="center">Find People</h1>
+            <input id="search_people_bar" type="text" placeholder="Search People..." />
+
+            <!-- Returned List From Search -->
+            <div id="people_list">
+							
+            </div>	
+
+            
+	   </div>
+    </div> 
+    
+    
+	<div data-role="page" id="delegateManage_Meeting">
+		<div data-role="header">
+		<title>Meeting Requests</title>
+	</div>
+		
+	<div role="main" class="ui-content">    
+		<!-- banner content-->
+		<div class="banner">
+			<div class="menu_icon">
+				<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+				<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+			</div>			
+			<h1 class="logo center conference_name"></h1>
+		</div>	
+
+		<h1 class="center">Meeting Requests</h1>
+
+							<!-- Returned meeting list From Search -->
+		<div id="meetings_list">
+		</div>		
+
+			
+		</div>
+	</div>
+	
+	<div data-role="page" id="delegateSpeakers_List">
+		<div data-role="header">
+		<title>Speakers</title>
+	</div>
+		
+	<div role="main" class="ui-content">    
+		<!-- banner content-->
+		<div class="banner">
+			<div class="menu_icon">
+				<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+				<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+			</div>			
+			<h1 class="logo center conference_name"></h1>
+		</div>	
+
+		<h1 class="center">List of Speakers</h1>
+
+							<!-- Returned meeting list From Search -->
+		<div id="speakers_list">
+		</div>		
+
+			
+		</div>
+	</div> 
+
+
+	<div data-role="page" id="delegateSpeaker_Profile">
+		<div data-role="header">
+			<title>View Speaker</title>
+		</div>
+		<input type='hidden' id='selectedattendeeref' />
+		<div role="main" class="ui-content">
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name"></h1>
+			</div>	
+							
+			<div class='row'><div class='twelve columns' style='display:none' id='speaker_error'></div>
+			</div>
+			<input type='hidden' id='selectedspeaker' value='' />
+			<div class="delegateSpeaker row">
+	 
+
+				<div class="two columns profile_photo_div">
+					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="speaker_profile_img" alt="profile photo"><br>
+				</div>
+
+
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='speaker_first_name'></span> <span id='speaker_last_name'></span></strong></p>
+					<p><span id='speaker_organisation'></span><span id='speaker_job_title'></span></p>
+				</div>
+				
+			</div>
+			
+			<div class='row' id='speakerbio'>
+			
+			</div>
+
+					 
+		</div>
+	</div>
+
+
+	<div data-role="page" id="delegatePerson_Profile">
+		<div data-role="header">
+			<title>View Profile</title>
+		</div>
+		<input type='hidden' id='selectedattendeeref' />
+		<div role="main" class="ui-content">
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				</div>			
+				<h1 class="logo center conference_name"></h1>
+			</div>	
+							
+			<div class='row'><div class='twelve columns' style='display:none' id='other_profile_error'></div>
+		</div>
+
+			<div class="delegateProfile row">
+	 
+
+				<div class="two columns profile_photo_div">
+					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
+				</div>
+
+
+				<div class="user_profile_form ten columns">
+					<p><strong><span id='other_profile_first_name'></span> <span id='other_profile_last_name'></span></strong></p>
+					<p><span id='other_profile_organisation'></span>: <span id='other_profile_job_title'></span></p>
+					<p><span id='other_profile_bio'></span></p>
+				</div>
+				
+			</div>
+		
+			<!--meeting button, hide onclick and display fix meeting modal below -->	
+			<fieldset>						
+				<button type="button" id="arrange_meeting_btn" class="grey_btn">Meeting</button>
+			</fieldset>			
+			<!-- alternate view fix meeting modal visibility to be toggled with default meeting view above, JS -->
+			<div id="person_profile_meeting_schdlr_div">
+				<div class='row'>
+					<label for="createmeeting_date" class="left">Date / Time</label>
+					<input type="datetime-local" name='createmeeting_date' id='createmeeting_date' class="datetimelocal right" style='background-color: white;'>
+				</div>
+
+				<div class='row'>
+					<br><label for="schdlr_lctn" class="left">Location</label>
+					<input type="text" name="schdlr_lctn" id='schdlr_lctn' class="schdlr_lctn right" maxlength="50" placeholder="Where">
+				</div>
+
+				<div class='row'>
+					<br><label for="schdlr_msg" class="left">Message</label><br>
+					<textarea name="schdlr_msg" class="schdlr_msg" id='schdlr_msg' maxlength="250" placeholder="Message"></textarea>
+				</div>
+				
+				<div class='row'>
+					<button type="button" id="send_meeting_btn" class="right grey_btn">Send</button>
+					<button type="reset" id="cancel_schdlr_btn" class="left red_btn">Cancel</button>
+				</div>
+			</div>
+
+			<div class='errormessage alert alert-danger' id='otherprofilestatusresponse'></div>
+
+					 
+		</div>
+	</div>             
+
+
+    <div data-role="page" id="delegateUser_Profile">
+        <div data-role="header">
+            <title>My Profile</title>
+        </div>
+
+        <div role="main" class="ui-content"> 
+            <!-- banner content-->
+            <div class="banner">
+                <div class="menu_icon">
+                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+                </div>			
+                <h1 class="logo center conference_name"></h1>
+            </div>	
+			
+			
+			<h1>My Profile</h1>
+			<div id="my_profile_photo_div">
+				<img id="profilepicture" src="user_photo.png" alt="profile photo">
+				<button id = "imagepickerprofile">Choose New Picture</button>
+			</div>
+			<textarea id='piccyoutput'>Stuff2</textarea> 
+			<form id="myprofileform" class="my_profile_form">
+				<fieldset>
+					<label for="f_name">Forename</label>
+					<input type="text" id="f_name" name="f_name" maxlength="100" class="f_name">
+				</fieldset>
+				<fieldset>
+					<label for="s_name">Surname</label>
+					<input type="text" id="s_name" name="s_name" maxlength="100" class="s_name">
+				</fieldset>
+				<fieldset>
+					<label for="org">Organisation</label>
+					<input type="text" id="org" name="org" maxlength="100" class="org">
+				</fieldset>
+				<fieldset>
+					<label for="role">Role</label>
+					<input type="text" id="job_title" name="role" maxlength="100" class="person_role">
+				</fieldset>
+				<fieldset>
+					<label for="bio">Biography</label>
+					<textarea id="bio" name="bio" class="bio"></textarea>
+				</fieldset>					
+				<fieldset>
+					<button type="button" id="updt_profile_btn"  class="right red_btn">Update</button>
+				</fieldset>
+				<div id='profilestatusresponse'></div>
+			</form>
+	   </div>
+
+    </div>
+
+    <div data-role="panel" id="leftpanel" data-position="left" data-display="overlay" data-theme="a">
+
+        <h3>The Delegate</h3>
+        <a href="#delegateAgenda"> <img src="agenda_icon.png" alt="agenda icon">Agenda</a>
+        <a href="#delegateFind_People"> <img src="find_people_icon.png" alt="find people icon">Find People</a>
+        <a href="#delegateSpeakers_List"><img src="icon_speakers.png" alt="home icon">Speakers</a></a>
+        <a href="#delegateFind_People"> <img src="add_meeting.png" alt="profile icon">Create Meeting</a>
+        <a href="#delegateUser_Profile"> <img src="profile_icon.png" alt="profile icon">My Profile</a>
+        <a href="#delegateHome"> <img src="home_icon.png" alt="home icon">Conference Home</a>
+        <a href="#delegateIndex" class="close_btn"><img src="exit_icon.jpg" alt="exit icon">Delegate Home</a>
+    </div>
+
+
+</body>
+
+</html>

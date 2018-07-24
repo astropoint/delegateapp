@@ -12,7 +12,6 @@
     <preference name="android-minSdkVersion" value="26" />
     <preference name="android-targetSdkVersion" value="26" />
     <plugin name="cordova-plugin-camera" source="npm" spec="~2.1.1" />
-    <plugin name="cordova-plugin-media-capture" source="npm" spec="~1.2.0" />
     <plugin name="cordova-plugin-device" source="npm" spec="~1.1.1" />
     <plugin name="cordova-plugin-device-motion" source="npm" spec="~1.2.0" />
     <plugin name="cordova-plugin-device-orientation" source="npm" spec="~1.0.2" />

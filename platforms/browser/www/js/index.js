@@ -146,6 +146,16 @@ $(document).on('click',".conf_btn",function() {
 	location.href = "#delegateHome";
 });
 
+$(document).on('click', '#gdpr_terms_link', function(e){
+	e.preventDefault();
+	document.getElementById("gdpr_terms_modal").style.display = "initial";
+});
+
+$(document).on('click',"#gdpr_terms_modal",function(e) {
+	e.preventDefault();
+	$("#gdpr_terms_modal").attr("style",'display:none;');
+});
+
 $(document).on('click', '#arrange_meeting_btn', function(e){
 	e.preventDefault();
 	$('#person_profile_meeting_schdlr_div').slideDown();

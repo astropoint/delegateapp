@@ -13,16 +13,9 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
         },
-        "cordova-plugin-media": {
-            "PACKAGE_NAME": "com.jmdb.delegateapp"
-        },
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
         }
     },
-    "dependent_plugins": {
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.jmdb.delegateapp"
-        }
-    }
+    "dependent_plugins": {}
 }

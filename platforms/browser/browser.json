@@ -62,7 +62,7 @@
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
         "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
+            "PACKAGE_NAME": "com.jmdb.delegateapp"
         },
         "cordova-plugin-media": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
@@ -697,6 +697,23 @@
             "pluginId": "cordova-plugin-image-picker",
             "clobbers": [
                 "plugins.imagePicker"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+            "id": "cordova-plugin-inappbrowser.inappbrowser",
+            "pluginId": "cordova-plugin-inappbrowser",
+            "clobbers": [
+                "cordova.InAppBrowser.open",
+                "window.open"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-inappbrowser/src/browser/InAppBrowserProxy.js",
+            "id": "cordova-plugin-inappbrowser.InAppBrowserProxy",
+            "pluginId": "cordova-plugin-inappbrowser",
+            "merges": [
+                ""
             ]
         }
     ],

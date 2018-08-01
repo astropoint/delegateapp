@@ -223,6 +223,7 @@ $(document).on('click',"#log_in_btn",function(e){
 					localStorage.setItem("conf_"+numconferences+"_image", response.data.conf_id);
 					localStorage.setItem("conf_"+numconferences+"_desc", response.data.conf_desc);
 					localStorage.setItem("conf_"+numconferences+"_name", response.data.conf_name);
+					localStorage.setItem("conf_"+numconferences+"_start_date", response.data.start_date);
 					localStorage.setItem("conf_"+numconferences+"_meetingslist", "");
 					localStorage.setItem("conf_"+numconferences+"_seminarist", "");
 					localStorage.setItem("conf_"+numconferences+"_speakerslist", "");
@@ -714,13 +715,14 @@ function fill_conference_data(){
 	for(var i = 1; i<=numconferences;i++){
 		if(localStorage.getItem("conf_"+i+"_active")=='1'){
 			conflisthtml += "<div class='row conferencelistrow'>";
-			conflisthtml += "<div id='conference_"+i+"' class='conf_btn fakebutton col-8'>";
-			conflisthtml += "<h1 id='conf_name_login_"+i+"'>"+localStorage.getItem("conf_"+i+"_name")+"</h1>";
-			conflisthtml += "<p id='email_login_"+i+"'>"+localStorage.getItem("conf_"+i+"_email")+"</p>";
-			conflisthtml += "</div>";
-			conflisthtml += "<div id='conferencedelete_"+i+"' class='conf_btn_delete fakebutton col-4'>";
-			conflisthtml += "<div class='conferencedeletetext'>Remove</div>"
+			conflisthtml += "<div id='conference_"+i+"' class='conf_btn fakebutton col-12'>";
+			conflisthtml += "<h4 id='conf_name_login_"+i+"'>"+localStorage.getItem("conf_"+i+"_name")+"</h4>";
+			//conflisthtml += "<p id='email_login_"+i+"'>"+localStorage.getItem("conf_"+i+"_email")+"</p>";
+			conflisthtml += "<p id='start_date_"+i+"'>Start Date: "+localStorage.getItem("conf_"+i+"_start_date")+"</p>";
 			conflisthtml += "</div></div>";
+			conflisthtml += "<div class='row removeconferencerow'><div id='conferencedelete_"+i+"' class='conf_btn_delete fakebutton col-12'>";
+			conflisthtml += "<div class='conferencedeleterow'>Remove "+localStorage.getItem("conf_"+i+"_name")+"</div>"
+			conflisthtml += "</div></div>"; 
 		}
 	}
 	
@@ -1129,6 +1131,7 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 			
 	switch (ui.toPage.prop("id")) {
 		case "delegateIndex":
+			resetAllFields();
 			break;
 		case "delegateLogin":
 			break;
@@ -1262,4 +1265,54 @@ function status_symbol(status){
 					break;
 	}
 	return statussymbol;
+}
+
+function resetAllFields(){
+	$('#user_conferences').html('');
+	$('#login_response').html('');
+	$('.conference_name').html('');
+	$('#agenda_list').html('');
+	$('#meeting_profile_first_name').html('');
+	$('#meeting_profile_last_name').html('');
+	$('#meeting_profile_organisation').html('');
+	$('#meeting_profile_job_title').html('');
+	$('#meeting_profile_bio').html('');
+	$('#sent_meeting_direction_span').html('');
+	$('#sent_meeting_status_span').html('');
+	$('#sent_meeting_rearrange_date_span').html('');
+	$('#sent_meeting_rearrange_date').html('');
+	$('#sent_meeting_date').html('');
+	$('#sent_meeting_location').html('');
+	$('#sent_meeting_rearrange_location_span').html('');
+	$('#sent_meeting_rearrange_location').html('');
+	$('#sent_meeting_message').html('');
+	$('#sent_meeting_response_text').html('');
+	$('#sent_meeting_response_input').html('');
+	$('#sent_meeting_response_textarea').html('');
+	$('#seminar_page_name').html('');
+	$('#seminar_page_time').html('');
+	$('#seminar_page_location').html('');
+	$('#selectedseminar').html('');
+	$('#people_list').html('');
+	$('#meetings_list').html('');
+	$('#speakers_list').html('');
+	$('#speaker_profile_img').attr('src', 'placeholder.jpeg');
+	$('#speaker_first_name').html('');
+	$('#speaker_last_name').html('');
+	$('#speaker_organisation').html('');
+	$('#speaker_job_title').html('');
+	$('#speakerbio').html('');
+	$('#other_profile_first_name').html('');
+	$('#other_profile_last_name').html('');
+	$('#other_profile_organisation').html('');
+	$('#other_profile_job_title').html('');
+	$('#other_profile_bio').html('');
+	$('#createmeeting_date').html('');
+	$('#schdlr_lctn').html('');
+	$('#schdlr_msg').html('');
+	$('#f_name').html('');
+	$('#s_name').html('');
+	$('#org').html('');
+	$('#job_title').html('');
+	$('#bio').html('');
 }

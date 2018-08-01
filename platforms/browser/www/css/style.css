@@ -109,6 +109,10 @@ a {
 	display:flex;
 }
 
+.conferencedeleterow{
+	display:flex;
+	padding: 10px;
+}
 
 /*############ Login page #########################*/
 

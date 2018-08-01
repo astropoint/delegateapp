@@ -1204,6 +1204,7 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 			break;
 		case "delegateSpeaker_Profile":
 			checkSpeakerSelected();
+			clearMeetingFields();
 			break;
 		default:
 			alert("NO PAGE INIT FUNCTION")
@@ -1355,4 +1356,11 @@ function resetAllFields(){
 	$('#org').val('');
 	$('#job_title').val('');
 	$('#bio').val('');
+}
+
+function clearMeetingFields(){
+	$('#createmeeting_date').val('');
+	$('#schdlr_lctn').val('');
+	$('#schdlr_msg').val('');
+	
 }

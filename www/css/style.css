@@ -333,7 +333,8 @@ textarea {
 	float:left;}
 
 .center {
-	text-align:center;}
+	text-align:center;
+}
 
 .hide {
 	display: none;
@@ -348,7 +349,8 @@ textarea {
 	font-weight: bold;}
 
 .grey_txt {	
-	color: #606060;}
+	color: #606060;
+}
 
 .thin_italic_grey {
 	color: #383838;	
@@ -397,4 +399,8 @@ textarea {
 
 .meeting_schedule{
 	font-size: 1.5em;
+}
+
+#otherprofilestatusresponse{
+	display:none;
 }

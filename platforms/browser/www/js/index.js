@@ -714,11 +714,11 @@ function fill_conference_data(){
 	for(var i = 1; i<=numconferences;i++){
 		if(localStorage.getItem("conf_"+i+"_active")=='1'){
 			conflisthtml += "<div class='row conferencelistrow'>";
-			conflisthtml += "<div id='conference_"+i+"' class='conf_btn fakebutton eight columns'>";
+			conflisthtml += "<div id='conference_"+i+"' class='conf_btn fakebutton col-8'>";
 			conflisthtml += "<h1 id='conf_name_login_"+i+"'>"+localStorage.getItem("conf_"+i+"_name")+"</h1>";
 			conflisthtml += "<p id='email_login_"+i+"'>"+localStorage.getItem("conf_"+i+"_email")+"</p>";
 			conflisthtml += "</div>";
-			conflisthtml += "<div id='conferencedelete_"+i+"' class='conf_btn_delete fakebutton four columns'>";
+			conflisthtml += "<div id='conferencedelete_"+i+"' class='conf_btn_delete fakebutton col-4'>";
 			conflisthtml += "<div class='conferencedeletetext'>Remove</div>"
 			conflisthtml += "</div></div>";
 		}

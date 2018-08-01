@@ -23,24 +23,25 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'self' data: gap: https://* 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
-        <!-- Adding jQuery -->
-    <script type="text/javascript" src="./js/jquery-2.1.4.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
-        <!-- Add jQuery mobile -->
-    <link rel="stylesheet" href="./js/jquery.mobile-1.4.5.css" />
-    <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
-        <!-- All js to go in here inside ondeviceready fn -->
-    <script type="text/javascript" src="js/index.js" defer></script>
-        <!--I think this CSS applies to all pages here-->        
-    <link rel="stylesheet" href="css/skeleton.css">
-    <link rel="stylesheet" href="css/style.css">
-    <title>The Delegate App</title>
+		<meta charset="utf-8" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="msapplication-tap-highlight" content="no" />
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+		<!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+		<meta http-equiv="Content-Security-Policy" content="default-src * 'self' data: gap: https://* 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
+				<!-- Adding jQuery -->
+		<script type="text/javascript" src="./js/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="cordova.js"></script>
+				<!-- Add jQuery mobile -->
+		<link rel="stylesheet" href="./js/jquery.mobile-1.4.5.css" />
+		<script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
+		<!-- All js to go in here inside ondeviceready fn -->
+		<script type="text/javascript" src="js/index.js" defer></script>
+		<script src='js/bootstrap.min.js' defer></script>
+				<!--I think this CSS applies to all pages here-->        
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<title>The Delegate App</title>
 
 </head>
 
@@ -57,8 +58,8 @@
 
         <div role="main" class="ui-content">
             <!-- Background image & button -->
-            <div id="start_pg_bg_img">
-                <img src="start_pg_bg_img.png" alt="background image">
+            <div id="start_pg_bg_img" style='text-align:center'>
+                <img src="start_pg_bg_img.png" alt="background image" style='max-height:50vh'>
                 <button id="login_btn"> ADD CONFERENCE </button>
             </div>
 
@@ -247,12 +248,12 @@
 			<div class="delegateProfile row">
 	 
 
-				<div class="two columns profile_photo_div">
+				<div class="col-2 profile_photo_div">
 					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
 				</div>
 
 
-				<div class="user_profile_form ten columns">
+				<div class="user_profile_form col-10">
 					<p><strong><span id='meeting_profile_first_name'></span> <span id='meeting_profile_last_name'></span></strong></p>
 					<p><span id='meeting_profile_organisation'></span>: <span id='meeting_profile_job_title'></span></p>
 					<p><span id='meeting_profile_bio'></span></p>
@@ -325,7 +326,7 @@
 			<div class="delegateProfile row">
 
 
-				<div class="user_profile_form ten columns">
+				<div class="user_profile_form col-10">
 					<p><strong><span id='seminar_page_name'></span></strong></p>
 					<p>Date/Time: <span id='seminar_page_time'></span></p>
 					<p><span id='seminar_page_location'></span></p>
@@ -435,18 +436,18 @@
 				<h1 class="logo center conference_name"></h1>
 			</div>	
 							
-			<div class='row'><div class='twelve columns' style='display:none' id='speaker_error'></div>
+			<div class='row'><div class='col-12' style='display:none' id='speaker_error'></div>
 			</div>
 			<input type='hidden' id='selectedspeaker' value='' />
 			<div class="delegateSpeaker row">
 	 
 
-				<div class="two columns profile_photo_div">
+				<div class="col-2 profile_photo_div">
 					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="speaker_profile_img" alt="profile photo"><br>
 				</div>
 
 
-				<div class="user_profile_form ten columns">
+				<div class="user_profile_form col-10">
 					<p><strong><span id='speaker_first_name'></span> <span id='speaker_last_name'></span></strong></p>
 					<p><span id='speaker_organisation'></span><span id='speaker_job_title'></span></p>
 				</div>
@@ -477,18 +478,18 @@
 				<h1 class="logo center conference_name"></h1>
 			</div>	
 							
-			<div class='row'><div class='twelve columns' style='display:none' id='other_profile_error'></div>
+			<div class='row'><div class='col-12' style='display:none' id='other_profile_error'></div>
 		</div>
 
 			<div class="delegateProfile row">
 	 
 
-				<div class="two columns profile_photo_div">
+				<div class="col-2 profile_photo_div">
 					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
 				</div>
 
 
-				<div class="user_profile_form ten columns">
+				<div class="user_profile_form col-10">
 					<p><strong><span id='other_profile_first_name'></span> <span id='other_profile_last_name'></span></strong></p>
 					<p><span id='other_profile_organisation'></span>: <span id='other_profile_job_title'></span></p>
 					<p><span id='other_profile_bio'></span></p>

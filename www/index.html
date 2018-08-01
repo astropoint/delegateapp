@@ -109,122 +109,112 @@
     </div>
 
     
-    <div data-role="page" id="delegateHome">
-        <div data-role="header">
-            <title>Home</title>
-            <script id="panel-init">
-                $(function() {
-                $( "body>[data-role='panel']" ).panel();
-                });
-	       </script>
+		<div data-role="page" id="delegateHome">
+			<div data-role="header">
+				<title>Home</title>
+				<script id="panel-init">
+						$(function() {
+							$( "body>[data-role='panel']" ).panel();
+						});
+				 </script>
 
-        </div>
+			</div>
 
-        <div role="main" class="ui-content">
-            
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center conference_name"></h1>
-            </div>	
+			<div role="main" class="ui-content">
+							
+					<!-- banner content-->
+				<div class="banner">
+					<div class="menu_icon">
+					<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+				</div>			
+			</div>	
+			<h1 class="logo center conference_name"></h1>
 
+			<!--Conference location & date -->
+			<h3 class='center'>Starts on <span class="conference_date"></span></h3>
 
-            <!--Conference location & date -->
-            <h3><span class="conference_name"></span></h3>
-            
+			<!-- button to toggle more info div below -->
+			<div id="less_conference_info">
+				<!--Conf Info visibility button? -->
+				<p class="center"><a href="#" onclick="toggle_content('less_conference_info', 'more_conference_info')">more info &#9660;</a></p>
 
+				<!-- Horizontal rule -->
+				<hr><br>			
 
-            <!-- button to toggle more info div below -->
-            <div id="less_conference_info">
-                <!--Conf Info visibility button? -->
-                <p class="center"><a href="#" onclick="toggle_content('less_conference_info', 'more_conference_info')">more info &#9660;</a></p>
+				<!-- Home Page Action Tabs -->		
+				<div id="home_action_tabs">
+					<section>
+						<div class="left right_border" onclick="window.location='#delegateAgenda';">
+							<img src="agenda_icon.png" alt="agenda icon">
+							<h3> Agenda </h3>
+						</div>
 
-                <!-- Horizontal rule -->
-                <hr><br>			
+						<div class="right" onclick="window.location='#delegateManage_Meeting';">				
+							<img src="meeting_icon.png" alt="meeting icon">
+							<h3> Meeting <br> Requests </h3>
+						</div>
+					</section>
+					<!-- Horizontal rule -->
+					<hr>
+					<section>
+						<div class="left right_border" onclick="window.location='#delegateFind_People';">			
+							<img src="find_people_icon.png" alt="find people icon">
+							<h3> Find People </h3>
+						</div>
+						<div class="right" onclick="window.location='#delegateFind_People';">	
+							<img src="add_meeting.png" alt="meeting icon">
+							<h3> Create <br> Meeting </h3>
+						</div>
+					</section>
+				</div>
+			</div>
+			<!-- more conference info div -->
+			<div id="more_conference_info" class="hide">					
+				<img id="conference_image" src="conference_image.png" alt="conference image">
+				<!--More Conference Info to go here, JS-->					
+				<p id='conference_desc'></p>
 
-                <!-- Home Page Action Tabs -->		
-                <div id="home_action_tabs">
-                    <section>
-                        <div class="left right_border" onclick="window.location='#delegateAgenda';">
-                            <img src="agenda_icon.png" alt="agenda icon">
-                            <h3> Agenda </h3>
-                        </div>
+				<!-- Address and maps icon -->
+				<div id="addr_icon" class="left">
+					<a href='' id='conf_map_link_a'><img src="maps_icon.png" alt="open in maps" id='conf_map_link'></a>
+				</div>
+				<!-- Conf Info visibility button? -->
+				<p id="less_info_btn"><a href="#" onclick="toggle_content('more_conference_info', 'less_conference_info')">less info &#9650;</a></p>			
+			</div>
+		</div>
+	</div>
 
-                        <div class="right" onclick="window.location='#delegateManage_Meeting';">				
-                            <img src="meeting_icon.png" alt="meeting icon">
-                            <h3> Meeting <br> Requests </h3>
-                        </div>
-                    </section>
-                    <!-- Horizontal rule -->
-                    <hr>
-                    <section>
-                        <div class="left right_border" onclick="window.location='#delegateFind_People';">			
-                            <img src="find_people_icon.png" alt="find people icon">
-                            <h3> Find People </h3>
-                        </div>
+		<div data-role="page" id="delegateAgenda">
+			<div data-role="header">
+				<title>Agenda</title>
+			</div>
 
-                        <div class="right" onclick="window.location='#delegateFind_People';">	
-                            <img src="add_meeting.png" alt="meeting icon">
-                            <h3> Create <br> Meeting </h3>
-                        </div>
-                    </section>
-                </div>
-            </div>
+			<div role="main" class="ui-content">
+				<!-- banner content-->
+				<div class="banner">
+					<div class="menu_icon">
+						<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+					</div>			
+				</div>	
+				<h1 class="logo center conference_name"> conference name </h1>
+							
 
+				<h1 class="center">Agenda
+					<a id='sortagendaasc' style="font-size:32px" href="javascript:history.back()">&#8595;</a>
+					<a id='sortagendadesc' style="font-size:32px" href="javascript:history.back()">&#8593;</a>
+				</h1>
 
-            <!-- more conference info div -->
-            <div id="more_conference_info" class="hide">					
-                <img id="conference_image" src="conference_image.png" alt="conference image">
+				<!-- Agenda List caption update with JS
+				<p id="agenda_list_caption"> 2 confirmed meetings</p> -->
 
-                <!--More Conference Info to go here, JS-->					
-                <p id='conference_desc'></p>
+				<!-- Returned List From Search -->
+				<div id="agenda_list">
+					<svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>
+				</div>
 
-                <!-- Address and maps icon -->
-                <div id="addr_icon" class="left">
-                    <a href='' id='conf_map_link_a'><img src="maps_icon.png" alt="open in maps" id='conf_map_link'></a>
-                </div>
-                
-
-                <!-- Conf Info visibility button? -->
-                <p id="less_info_btn"><a href="#" onclick="toggle_content('more_conference_info', 'less_conference_info')">less info &#9650;</a></p>			
-            </div>
-
-
-        </div>
-    </div> 
-
-    <div data-role="page" id="delegateAgenda">
-        <div data-role="header">
-            <title>Agenda</title>
-        </div>
-
-        <div role="main" class="ui-content">
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center conference_name"> conference name </h1>
-            </div>	
-            
-
-            <h1 class="center">Agenda</h1>
-
-            <!-- Agenda List caption update with JS
-            <p id="agenda_list_caption"> 2 confirmed meetings</p> -->
-
-            <!-- Returned List From Search -->
-            <div id="agenda_list">
-                <svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>
-            </div>
-
-          
-        </div>
-    </div>
+						
+			</div>
+		</div>
     
     
     
@@ -239,11 +229,10 @@
 			<!-- banner content-->
 			<div class="banner">
 				<div class="menu_icon">
-					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+					<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
 				</div>			
-				<h1 class="logo center conference_name">  </h1>
 			</div>	
+			<h1 class="logo center conference_name">  </h1>
 			<!-- other person's profile-->
 			<div class="delegateProfile row">
 	 
@@ -297,7 +286,6 @@
 			</fieldset>
 			<fieldset>			
 				<button type="button" id="reject_meeting_btn" style='display:none' class="red_btn">Decline</button>
-				<button type="button" id="meeting_back_button" class="red_btn">Back to meetings</button>
 			</fieldset>
 								
 		</div>
@@ -317,11 +305,10 @@
 			<!-- banner content-->
 			<div class="banner">
 				<div class="menu_icon">
-					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+					<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
 				</div>			
-				<h1 class="logo center conference_name">  </h1>
 			</div>	
+			<h1 class="logo center conference_name">  </h1>
 			<!-- other person's profile-->
 			<div class="delegateProfile row">
 
@@ -340,36 +327,33 @@
 							
 	</div>
 
-
-    
-    <div data-role="page" id="delegateFind_People">
-        <div data-role="header">
-		  <title>Find People</title>
-        </div>
+	<div data-role="page" id="delegateFind_People">
+		<div data-role="header">
+			<title>Find People</title>
+		</div>
 	
-        <div role="main" class="ui-content">
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center conference_name"> conference name </h1>
-            </div>	
+		<div role="main" class="ui-content">
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+				</div>			
+			</div>	
+			<h1 class="logo center conference_name"> conference name </h1>
 
-            <h1 class="center">Find People</h1>
-            <input id="search_people_bar" type="text" placeholder="Search People..." />
+			<h1 class="center">Find People</h1>
+			<input id="search_people_bar" type="text" placeholder="Search People..." />
 
-            <!-- Returned List From Search -->
-            <div id="people_list">
-							
-            </div>	
+			<!-- Returned List From Search -->
+			<div id="people_list">
+						
+			</div>	
 
-            
-	   </div>
-    </div> 
-    
-    
+
+		</div>
+	</div> 
+
+
 	<div data-role="page" id="delegateManage_Meeting">
 		<div data-role="header">
 		<title>Meeting Requests</title>
@@ -379,11 +363,10 @@
 		<!-- banner content-->
 		<div class="banner">
 			<div class="menu_icon">
-				<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-				<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
 			</div>			
-			<h1 class="logo center conference_name"></h1>
 		</div>	
+		<h1 class="logo center conference_name"></h1>
 
 		<h1 class="center">Meeting Requests</h1>
 
@@ -404,11 +387,10 @@
 		<!-- banner content-->
 		<div class="banner">
 			<div class="menu_icon">
-				<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-				<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+				<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
 			</div>			
-			<h1 class="logo center conference_name"></h1>
 		</div>	
+		<h1 class="logo center conference_name"></h1>
 
 		<h1 class="center">List of Speakers</h1>
 
@@ -430,11 +412,10 @@
 			<!-- banner content-->
 			<div class="banner">
 				<div class="menu_icon">
-					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+					<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
 				</div>			
-				<h1 class="logo center conference_name"></h1>
 			</div>	
+			<h1 class="logo center conference_name"></h1>
 							
 			<div class='row'><div class='col-12' style='display:none' id='speaker_error'></div>
 			</div>
@@ -472,11 +453,10 @@
 			<!-- banner content-->
 			<div class="banner">
 				<div class="menu_icon">
-					<a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-					<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+					<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
 				</div>			
-				<h1 class="logo center conference_name"></h1>
 			</div>	
+			<h1 class="logo center conference_name"></h1>
 							
 			<div class='row'><div class='col-12' style='display:none' id='other_profile_error'></div>
 		</div>
@@ -499,7 +479,7 @@
 		
 			<!--meeting button, hide onclick and display fix meeting modal below -->	
 			<fieldset>						
-				<button type="button" id="arrange_meeting_btn" class="grey_btn">Setup Meeting</button>
+				<h4>Setup meeting</h4>
 			</fieldset>			
 			<!-- alternate view fix meeting modal visibility to be toggled with default meeting view above, JS -->
 			<div id="person_profile_meeting_schdlr_div">
@@ -531,21 +511,19 @@
 	</div>             
 
 
-    <div data-role="page" id="delegateUser_Profile">
-        <div data-role="header">
-            <title>My Profile</title>
-        </div>
+	<div data-role="page" id="delegateUser_Profile">
+		<div data-role="header">
+			<title>My Profile</title>
+		</div>
 
-        <div role="main" class="ui-content"> 
-            <!-- banner content-->
-            <div class="banner">
-                <div class="menu_icon">
-                    <a href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
-                    <a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
-                </div>			
-                <h1 class="logo center conference_name"></h1>
-            </div>	
-			
+		<div role="main" class="ui-content"> 
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a class='left' href="#leftpanel"><p>&#9776;</p></a> <!-- or &#8801 -->
+				</div>			
+			</div>
+			<h1 class="logo center conference_name"></h1>
 			
 			<h1>My Profile</h1>
 			<!--
@@ -584,19 +562,18 @@
 			</form>
 	   </div>
 
-    </div>
+	</div>
 
-    <div data-role="panel" id="leftpanel" data-position="left" data-display="overlay" data-theme="a">
+	<div data-role="panel" id="leftpanel" data-position="left" data-display="overlay" data-theme="a">
 
-        <h3>The Delegate</h3>
-        <a href="#delegateAgenda"> <img src="agenda_icon.png" alt="agenda icon">Agenda</a>
-        <a href="#delegateFind_People"> <img src="find_people_icon.png" alt="find people icon">Find People</a>
-        <a href="#delegateSpeakers_List"><img src="icon_speakers.png" alt="home icon">Speakers</a></a>
-        <a href="#delegateFind_People"> <img src="add_meeting.png" alt="profile icon">Create Meeting</a>
-        <a href="#delegateUser_Profile"> <img src="profile_icon.png" alt="profile icon">My Profile</a>
-        <a href="#delegateHome"> <img src="home_icon.png" alt="home icon">Conference Home</a>
-        <a href="#delegateIndex" class="close_btn"><img src="exit_icon.jpg" alt="exit icon">Logout</a>
-    </div>
+		<a href="#delegateAgenda"> <img src="agenda_icon.png" alt="agenda icon">Agenda</a>
+		<a href="#delegateFind_People"> <img src="find_people_icon.png" alt="find people icon">Find People</a>
+		<a href="#delegateSpeakers_List"><img src="icon_speakers.png" alt="home icon">Speakers</a></a>
+		<a href="#delegateFind_People"> <img src="add_meeting.png" alt="profile icon">Create Meeting</a>
+		<a href="#delegateUser_Profile"> <img src="profile_icon.png" alt="profile icon">My Profile</a>
+		<a href="#delegateHome"> <img src="home_icon.png" alt="home icon">Conference Home</a>
+		<a href="#delegateIndex" class="close_btn"><img src="exit_icon.jpg" alt="exit icon">Logout</a>
+	</div>
 
 
 </body>

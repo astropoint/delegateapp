@@ -28,10 +28,12 @@ a {
 #sync_info {
 	border: thin solid blue;	
 	color: #ccc;
-	font-size: 0.8em;}
-	
-	
+	font-size: 0.8em;
+}
 
+#leftpanel img{
+	max-width: 100%;
+}
 
 /*############ Menu - slide in #########################*/
 #nav {
@@ -275,12 +277,6 @@ a {
 	text-align:left;
 	margin-left:1em;
 	font-size: 2em;
-}
-
-/*############ person profile page ############*/
-#person_profile_meeting_schdlr_div {
-	display:none;
-	
 }
 	
 /*############ All Profile pages #########################*/

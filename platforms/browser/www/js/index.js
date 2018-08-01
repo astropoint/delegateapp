@@ -13,6 +13,8 @@ $(document).ready(function(){
 			}, 10000);
 });
 
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 var destinationType;
 function onDeviceReady(){
 		attendees = new Object(); //this can be done on declaration
@@ -418,6 +420,7 @@ $(document).on('click', '#send_meeting_btn', function(e){
 $(document).on('click',".clickbuttongetgetperson",function(e) {
 	var thisid = $(this).attr('id').split("-")[1];
 	getAttendeeProfile(thisid);
+	$('#search_people_bar').val('');
 	location.href = "#delegatePerson_Profile";
 }); 
 
@@ -476,10 +479,14 @@ function refreshProfilePage(){
 
 function refreshCurConference(){
 	
-	$('#conference_name').html(localStorage.getItem("conf_"+curconference+"_name"));
-	$('.conference_name').html(localStorage.getItem("conf_"+curconference+"_name"));
+	$('#conference_name').html(localStorage.getItem("conf_"+curconference+"_name")+'<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>');
+	$('.conference_name').html(localStorage.getItem("conf_"+curconference+"_name")+'<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>');
 	$('#conference_desc').html(localStorage.getItem("conf_"+curconference+"_desc"));
 	$('#conference_image').attr('src', 'data:image/png;base64,'+localStorage.getItem("conf_"+curconference+"_image"));
+	var start_date = localStorage.getItem("conf_"+curconference+"_start_date");
+	var start_date_object = new Date(start_date);
+	var start_date_formatted = start_date_object.getDate()+" "+months[start_date_object.getMonth()]+" "+start_date_object.getFullYear();
+	$('.conference_date').html(start_date_formatted);
 	
 	var mapcoords = localStorage.getItem("conf_"+curconference+"_mapcoords");
 	if(mapcoords!=''){
@@ -821,24 +828,42 @@ function getSeminars(callback){
 }
 
 var updatingagendainterval;
-function updateAgenda(){
+function updateAgenda(direction){
 	if(isInternet){
 		getSeminars('');
 		getMeetingRequests('');
 		updatingagendainterval = setInterval(function(){
 			if(!updatingseminars && !updatingmeetings){
-				updateAgendaPage(true);
+				updateAgendaPage(true, direction);
 			}
 		}, 100);
 	}else{
-		updateAgendaPage(false);
+		updateAgendaPage(false, direction);
 	}
 }
 
-function updateAgendaPage(clearint){
+$(document).on('click',"#sortagendaasc",function(e) {
+	e.preventDefault();
+	updateAgenda('asc');
+}); 
+$(document).on('click',"#sortagendadesc",function(e) {
+	e.preventDefault();
+	updateAgenda('desc');
+}); 
+
+function updateAgendaPage(clearint, direction){
 	if(clearint){
 		clearInterval(updatingagendainterval);
-	} 
+	}
+	
+	if(direction=='asc'){
+		$('#sortagendaasc').hide();
+		$('#sortagendadesc').show();
+	}else{
+		$('#sortagendaasc').show();
+		$('#sortagendadesc').hide();
+	}
+	
 	//first we need to get an ordered list of the elements
 	var agenda = [];
 	var meetinglist = localStorage.getItem("conf_"+numconferences+"_meetingslist");
@@ -889,7 +914,12 @@ function updateAgendaPage(clearint){
 			agenda.push(thisseminar);
 		});
 	}
-	agenda.sort(compareAgenda);
+	if(direction=='asc'){
+		agenda.sort(compareAgenda);
+	}else{
+		agenda.sort(compareAgendaDesc);
+	}
+	
 	var output = "";
 	agenda.forEach(function(item, index){
 		if(item['type']=='Meeting'){
@@ -920,13 +950,23 @@ function compareAgenda(a, b){
 	var adate = new Date(a.date);
 	var bdate = new Date(b.date);
 	if(adate<bdate){
+		return -1;
+	}else if(bdate<adate){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+function compareAgendaDesc(a, b){
+	var adate = new Date(a.date);
+	var bdate = new Date(b.date);
+	if(adate<bdate){
 		return 1;
 	}else if(bdate<adate){
 		return -1;
 	}else{
 		return 0;
 	}
-	
 }
 
 function updateMeetingRequestsPage(){
@@ -1138,7 +1178,7 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 		case "delegateHome":
 			break;
 		case "delegateAgenda":
-			updateAgenda();
+			updateAgenda(false, 'asc');
 			break;
 		case "delegateFind_People":
 			getAttendeeList();
@@ -1307,12 +1347,12 @@ function resetAllFields(){
 	$('#other_profile_organisation').html('');
 	$('#other_profile_job_title').html('');
 	$('#other_profile_bio').html('');
-	$('#createmeeting_date').html('');
-	$('#schdlr_lctn').html('');
-	$('#schdlr_msg').html('');
-	$('#f_name').html('');
-	$('#s_name').html('');
-	$('#org').html('');
-	$('#job_title').html('');
-	$('#bio').html('');
+	$('#createmeeting_date').val('');
+	$('#schdlr_lctn').val('');
+	$('#schdlr_msg').val('');
+	$('#f_name').val('');
+	$('#s_name').val('');
+	$('#org').val('');
+	$('#job_title').val('');
+	$('#bio').val('');
 }

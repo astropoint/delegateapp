@@ -84,7 +84,16 @@ $(document).on('click',"#login_btn",function() {
 
 $(document).on('click', '.returnhome', function(){
 	location.href = "#delegateIndex";
-	
+});
+
+$(document).on('click', '.mypage', function(e){
+	/*
+	 * horrible fudge, the left panel always comes out too far covering part of the page so we
+	 * have to check whether the page has been clicked on *unless* it's the menu icon itself
+	 */
+	if(!$(e.target).hasClass('hamburger_icon') && $('#leftpanel').hasClass('ui-panel-open')){
+		$( "#leftpanel" ).panel( "close" );
+	} 
 });
 
 $(document).on('click',".gotomeetingbutton",function() {
@@ -127,6 +136,16 @@ $(document).on('keyup', '#search_people_bar', function(e){
 		}
 		
 	});
+});
+
+$(document).on('click', '.menu_link', function(e){
+	var clicked = $(this).attr('href');
+	var active= $('.ui-page-active').attr('id');
+	console.log(clicked);
+	console.log(active);
+	if(clicked=='#'+active){
+		$('#leftpanel').panel('close');
+	}
 });
 
 

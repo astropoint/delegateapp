@@ -31,8 +31,28 @@ a {
 	font-size: 0.8em;
 }
 
+#leftpanel{
+	max-width: 50%;
+}
+
+@media only screen and (max-width: 560px) {
+	/* Panel left open animated */
+	.ui-panel-animate.ui-panel-page-content-position-left {
+		left: 0;
+		right: 0;
+		-webkit-transform: translate3d(50%,0,0);
+		-moz-transform: translate3d(50%,0,0);
+		transform: translate3d(50%,0,0);
+	}
+}
+
 #leftpanel img{
 	max-width: 100%;
+}
+
+.ui-panel-page-content-position-left {
+	/*left: -25% !important;*/
+	
 }
 
 /*############ Menu - slide in #########################*/

@@ -40,17 +40,14 @@
 		<script src='js/bootstrap.min.js' defer></script>
 				<!--I think this CSS applies to all pages here-->        
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/style.css">
 		<title>The Delegate App</title>
 
 </head>
 
 <body>
-    
 
-           
-    
-    
     <div data-role="page" class='mypage' id="delegateIndex">
         <div data-role="header">		
             <title>Delegate Start Page</title>		
@@ -129,6 +126,7 @@
 				</div>			
 			</div>	
 			<h1 class="logo center conference_name"></h1>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
 			<!--Conference location & date -->
 			<h3 class='center'>Starts on <span class="conference_date"></span></h3>
@@ -197,7 +195,7 @@
 					</div>			
 				</div>	
 				<h1 class="logo center conference_name"> conference name </h1>
-							
+				<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
 				<h1 class="center">Agenda
 					<a id='sortagendaasc' style="font-size:32px" href="javascript:history.back()">&#8595;</a>
@@ -209,7 +207,7 @@
 
 				<!-- Returned List From Search -->
 				<div id="agenda_list">
-					<svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>
+						<i class="fa fa-spinner fa-spin" style="font-size:24px"></i> 
 				</div>
 
 						
@@ -233,6 +231,7 @@
 				</div>			
 			</div>	
 			<h1 class="logo center conference_name">  </h1>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 			<!-- other person's profile-->
 			<div class="delegateProfile row">
 	 
@@ -309,6 +308,7 @@
 				</div>			
 			</div>	
 			<h1 class="logo center conference_name">  </h1>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 			<!-- other person's profile-->
 			<div class="delegateProfile row">
 
@@ -339,7 +339,8 @@
 					<a class='left' href="#leftpanel"><p class='hamburger_icon'>&#9776;</p></a> <!-- or &#8801 -->
 				</div>			
 			</div>	
-			<h1 class="logo center conference_name"> conference name </h1>
+			<h1 class="logo center conference_name"></h1>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
 			<h1 class="center">Find People</h1>
 			<input id="search_people_bar" type="text" placeholder="Search People..." />
@@ -367,6 +368,7 @@
 			</div>			
 		</div>	
 		<h1 class="logo center conference_name"></h1>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
 		<h1 class="center">Meeting Requests</h1>
 
@@ -391,6 +393,7 @@
 			</div>			
 		</div>	
 		<h1 class="logo center conference_name"></h1>
+		<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
 		<h1 class="center">List of Speakers</h1>
 
@@ -416,7 +419,8 @@
 				</div>			
 			</div>	
 			<h1 class="logo center conference_name"></h1>
-							
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+
 			<div class='row'><div class='col-12' style='display:none' id='speaker_error'></div>
 			</div>
 			<input type='hidden' id='selectedspeaker' value='' />
@@ -457,6 +461,7 @@
 				</div>			
 			</div>	
 			<h1 class="logo center conference_name"></h1>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 							
 			<div class='row'><div class='col-12' style='display:none' id='other_profile_error'></div>
 		</div>
@@ -465,11 +470,11 @@
 	 
 
 				<div class="col-2 profile_photo_div">
-					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
+					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo" style='max-width:100%'><br>
 				</div>
 
 
-				<div class="user_profile_form col-10">
+				<div class="user_profile_form col-10 text-left">
 					<p><strong><span id='other_profile_first_name'></span> <span id='other_profile_last_name'></span></strong></p>
 					<p><span id='other_profile_organisation'></span>: <span id='other_profile_job_title'></span></p>
 					<p><span id='other_profile_bio'></span></p>
@@ -484,18 +489,24 @@
 			<!-- alternate view fix meeting modal visibility to be toggled with default meeting view above, JS -->
 			<div id="person_profile_meeting_schdlr_div">
 				<div class='row'>
-					<label for="createmeeting_date" class="left">Date / Time</label>
+					<label for="createmeeting_date" class="col-4 col-md-2">Date / Time</label>
+					<div class='col-8 col-md-10'>
 					<input type="datetime-local" name='createmeeting_date' id='createmeeting_date' class="datetimelocal right" style='background-color: white;'>
+					</div>
 				</div>
 
 				<div class='row'>
-					<br><label for="schdlr_lctn" class="left">Location</label>
-					<input type="text" name="schdlr_lctn" id='schdlr_lctn' class="schdlr_lctn right" maxlength="50" placeholder="Where">
+					<br><label for="schdlr_lctn" class="col-4 col-md-2">Location</label>
+					<div class='col-8 col-md-10'>
+					<input type="text" name="schdlr_lctn" id='schdlr_lctn' maxlength="50" placeholder="Where">
+					</div>
 				</div>
 
 				<div class='row'>
-					<br><label for="schdlr_msg" class="left">Message</label><br>
+					<label for="schdlr_msg" class="col-4 col-md-2">Message</label>
+					<div class='col-8 col-md-10'>
 					<textarea name="schdlr_msg" class="schdlr_msg" id='schdlr_msg' maxlength="250" placeholder="Message"></textarea>
+					</div>
 				</div>
 				
 				<div class='row'>
@@ -523,6 +534,7 @@
 				</div>			
 			</div>
 			<h1 class="logo center conference_name"></h1>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 			
 			<h1>My Profile</h1>
 			<!--
@@ -555,6 +567,11 @@
 					<textarea id="bio" name="bio" class="bio"></textarea>
 				</fieldset>					
 				<fieldset>
+					<div id='updateprofilespinner' class='row' style='display:none'>
+						<div class='col-12 text-center'>
+							<i class="fa fa-spinner fa-spin" style="font-size:24px"></i> 
+						</div>
+					</div>
 					<button type="button" id="updt_profile_btn"  class="right red_btn">Update</button>
 				</fieldset>
 				<div id='profilestatusresponse'></div>
@@ -571,7 +588,7 @@
 		<a class='menu_link' href="#delegateFind_People">Create Meeting<img src="add_meeting.png" alt="profile icon"></a>
 		<a class='menu_link' href="#delegateUser_Profile">My Profile<img src="profile_icon.png" alt="profile icon"></a>
 		<a class='menu_link' href="#delegateHome">Conference Home<img src="home_icon.png" alt="home icon"></a>
-		<a class='menu_link' href="#delegateIndex" class="close_btn">Logout<img src="exit_icon.jpg" alt="exit icon"></a>
+		<a class='menu_link' href="#delegateIndex" id="close_btn">Logout<img src="exit_icon.jpg" alt="exit icon"></a>
 	</div>
 
 

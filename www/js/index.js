@@ -13,6 +13,8 @@ $(document).ready(function(){
 			}, 10000);
 });
 
+var spinner = '<svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>';
+
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 var destinationType;
@@ -118,6 +120,10 @@ $(document).on('click', ".speakerlist", function(e){
 	
 	location.href = "#delegateSpeaker_Profile";
 	
+});
+
+$(document).on('click', '#close_btn', function(){
+	resetAllFields();
 });
 
 $(document).on('keyup', '#search_people_bar', function(e){
@@ -270,6 +276,8 @@ $(document).on('click',"#log_in_btn",function(e){
 $(document).on('click',"#updt_profile_btn",function() {
 
 	if(isInternet){
+		$(this).hide();
+		$('#updateprofilespinner').show();
 		var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
 		var data = "action=updateprofile&apikey="+thisapikey;
 		data += "&job_title="+encodeURIComponent($('#delegateUser_Profile').find('input[name="role"]').val());
@@ -279,7 +287,7 @@ $(document).on('click',"#updt_profile_btn",function() {
 		data += "&organisation="+encodeURIComponent($('#delegateUser_Profile').find('input[name="org"]').val());
 		if( typeof(receiptPicture)!==null && receiptPicture!=null && receiptPicture!='' && receiptPicture!='null'){
 			data += "&profileimage="+encodeURIComponent(receiptPicture);
-		}
+		} 
 		$('#piccyoutput').val(receiptPicture);
 		$.ajax({
 			url: apiURL,
@@ -287,14 +295,22 @@ $(document).on('click',"#updt_profile_btn",function() {
 			dataType: "json",
 			type: 'post',
 		}).done(function(response){
-			refreshProfilePage();
-			//$('#piccyoutput').html(response); 
 			if(response.success){
+				$('#profilestatusresponse').show();
 				$('#profilestatusresponse').html("Succesfully updated profile");
+				setTimeout(function(){
+					$('#profilestatusresponse').hide();
+				}, 5000);
 			}
+			$('#updt_profile_btn').show();
+			$('#updateprofilespinner').hide();
 		});
 	}else{
+		$('#profilestatusresponse').show();
 		$('#profilestatusresponse').html("You need an active internet connection to update your profile");
+		setTimeout(function(){
+			$('#profilestatusresponse').hide();
+		}, 5000);
 	}
 	
 });
@@ -498,8 +514,10 @@ function refreshProfilePage(){
 
 function refreshCurConference(){
 	
-	$('#conference_name').html(localStorage.getItem("conf_"+curconference+"_name")+'<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>');
-	$('.conference_name').html(localStorage.getItem("conf_"+curconference+"_name")+'<a class="right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>');
+	//$('#conference_name').html(localStorage.getItem("conf_"+curconference+"_name")+'<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>');
+	//$('.conference_name').html(localStorage.getItem("conf_"+curconference+"_name")+'<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>');
+	$('#conference_name').html(localStorage.getItem("conf_"+curconference+"_name"));
+	$('.conference_name').html(localStorage.getItem("conf_"+curconference+"_name"));
 	$('#conference_desc').html(localStorage.getItem("conf_"+curconference+"_desc"));
 	$('#conference_image').attr('src', 'data:image/png;base64,'+localStorage.getItem("conf_"+curconference+"_image"));
 	var start_date = localStorage.getItem("conf_"+curconference+"_start_date");
@@ -1212,7 +1230,6 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 			
 	switch (ui.toPage.prop("id")) {
 		case "delegateIndex":
-			resetAllFields();
 			break;
 		case "delegateLogin":
 			break;

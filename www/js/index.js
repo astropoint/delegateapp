@@ -942,27 +942,50 @@ function updateAgendaPage(clearint, direction){
 	var output = "";
 	agenda.forEach(function(item, index){
 		if(item['type']=='Meeting'){
-			output += "<button id='meetingagenda-"+item['id']+"' class='gotomeetingbutton ui-btn ui-shadow ui-corner-all'>";
-			output += "<h2>Meeting "+item['first_name']+" "+item['last_name']+",<br>"+item['job_title'] +" - "+item['organisation']+"<br>";
-			output += item['location']+"<br>";
-			output += "<span class='grey_txt'>"+item['date']+"</span>";
-			output += "</h2></button>";
+			output += "<div id='meetingagenda-"+item['id']+"' class='fakedarkbutton gotomeetingbutton row text-center'>";
+			output += "<h2 class='col-12'>Meeting<br>"+item['first_name']+" "+item['last_name'];
+			if(item['job_title']!='' || item['organisation']!=''){
+				output += "<br>";
+				if(item['job_title']!=''){
+					output += item['job_title'];
+					if(item['organisation']!=''){
+						output += " - ";
+					}
+				}
+				
+				if(item['organisation']!=''){
+					output += item['organisation'];
+				}
+			}
+			if(item['location']!=''){
+				output += "<br>"+item['location'];
+			}
+			output += "<br><span class='grey_txt'>"+dateWithoutSeconds(item['date'])+"</span>";
+			output += "</h2></div>";
 		}else if(item['type']=='Seminar'){
-			output += "<button id='seminaragenda-"+item['id']+"' class='gotoseminar ui-btn ui-shadow ui-corner-all'>";
-			output += "<h2>Seminar "+item['reference']+": "+item['name']+"<br>";
+			output += "<div id='seminaragenda-"+item['id']+"' class='gotoseminar row fakedarkbutton text-center'>";
+			output += "<h2 class='col-12'>Seminar";
+			if(typeof(item['reference']!='')!==null && item['reference']!== null && item['reference']!='null' && item['reference']!=''){
+				output += "<br>"+item['reference'];
+			}
+			output += "<br>"+item['name']+"<br>";
 			if(typeof(item['location']!='')!==null && item['location']!== null && item['location']!='null' && item['location']!=''){
 				output += item['location']+"<br>";
 			}
-			output += "<span class='grey_txt'>"+item['date'];
+			output += "<span class='grey_txt'>"+dateWithoutSeconds(item['date']);
 			if(typeof(item['end_date']!='')!==null && item['end_date']!== null && item['end_date']!='null' && item['end_date']!=''){
-				output += " to "+item['end_date'];
+				output += "<br> to <br>"+dateWithoutSeconds(item['end_date']);
 			}
 			output += "</span>";
-			output += "</h2></button>";
+			output += "</h2></div>";
 			
 		}
 	});
 	$('#agenda_list').html(output);
+}
+
+function dateWithoutSeconds(date){
+	return date.substring(0, date.length - 3);
 }
 
 function compareAgenda(a, b){
@@ -994,24 +1017,23 @@ function updateMeetingRequestsPage(){
 		var meetinglistarray = meetinglist.split(",");
 		var output = "";
 		meetinglistarray.forEach(function(item, index){
-			output += "<button id='meeting-"+item+"' class='gotomeetingbutton ui-btn ui-shadow ui-corner-all'>";
-			output += "<h3 class='left'>";
+			output += "<button id='meeting-"+item+"' class='gotomeetingbutton ui-btn ui-shadow ui-corner-all row'>";
+			output += "<div class='col-12 text-right'>"+status_symbol(localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_status"))+"</div>";
+			output += "<h3 class='col-12 text-left'>";
 			if(localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_reference") == localStorage.getItem("conf_"+curconference+"_reference")){
 				//this user is the sender
-				output += "&rArr; " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_first_name");
+				output += "To " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_first_name");
 				output += " " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_last_name");
 				output += "<br>" + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_organisation");
 			}else{
 				//this user is the receiver
-				output += "&lArr; " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_first_name");
+				output += "From " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_first_name");
 				output += " " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_last_name");
 				output += "<br>" + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_organisation");
 			}
 			output += "</h3>";
-			output += "<h1 class='right'>"+status_symbol(localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_status"))+"</h1>";
-			output += "<br style='clear:both;'>";
-			output += "<h4 class='left'>"+localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_meeting_date")+"</h3>";
-			output += "<h4 class='right red'>"+localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_last_update")+"</h4>";
+			output += "<h4 class='col-12 text-left'>"+localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_meeting_date")+"</h3>";
+			//output += "<h4 class='right'>"+localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_last_update")+"</h4>";
 			output += "</button>";
 		});;
 	}else{
@@ -1231,32 +1253,6 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 	}
 });
 
-
-//Sham -returns symbol text for a meeting status
-function status_symbol(status){
-    var statussymbol;
-        switch(status){
-        case "Accepted":
-            statussymbol = "&#10003;";
-            break;
-        case "Refused":
-        case "Declined": //To display correct text on Confirmed Meeting - The case:case: is deliberate
-            statussymbol = "&#10007;";
-            break;
-        case "Pending":
-            statussymbol = "...";
-            break;
-        case "Rearrange":
-        case "Amended"://see above comment
-            statussymbol = "?";
-            break;
-        default:
-            statussymbol = "";
-            break;
-    }
-    return statussymbol;
-}
-
 //Sham -returns time since "time", formatted
 //to <60s then <60m then <24h:0m then >1d depending on magnitude
 //TIME MUST BE UNIX
@@ -1307,18 +1303,19 @@ function status_symbol(status){
 	var statussymbol;
 			switch(status){
 			case "Accepted":
-					statussymbol = "&#10003;";
+					//statussymbol = "&#10003;";
+					statussymbol = "Accepted";
 					break;
 			case "Refused":
 			case "Declined": //To display correct text on Confirmed Meeting - The case:case: is deliberate
-					statussymbol = "&#10007;";
+					statussymbol = "Declined";
 					break;
 			case "Pending":
-					statussymbol = "...";
+					statussymbol = "Pending";
 					break;
 			case "Rearrange":
 			case "Amended"://see above comment
-					statussymbol = "?";
+					statussymbol = "Rearranged";
 					break;
 			default:
 					statussymbol = "";

@@ -35,6 +35,15 @@ a {
 	max-width: 50%;
 }
 
+.fakedarkbutton{
+	border: 2px solid #000;
+	border-radius: 10px;
+	margin: 0.5em 0 0.5em 0;
+	background-color: #ccc;
+	cursor: pointer;
+	height: auto;
+}
+
 @media only screen and (max-width: 560px) {
 	/* Panel left open animated */
 	.ui-panel-animate.ui-panel-page-content-position-left {

@@ -194,7 +194,7 @@
 						<a class='left' href="#leftpanel"><p class='hamburger_icon'>&#9776;</p></a> <!-- or &#8801 -->
 					</div>			
 				</div>	
-				<h1 class="logo center conference_name"> conference name </h1>
+				<h1 class="logo center conference_name"></h1>
 				<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
 				<h1 class="center">Agenda
@@ -213,10 +213,7 @@
 						
 			</div>
 		</div>
-    
-    
-    
-    
+
 	<div data-role="page" class='mypage' id="delegateMeetingDetails">
 		<div data-role="header">
 			<title>Meeting</title>
@@ -236,62 +233,70 @@
 			<div class="delegateProfile row">
 	 
 
-				<div class="col-2 profile_photo_div">
+				<div class="col-2 profile_photo_div" id='meeting_details_photodiv'>
 					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img" alt="profile photo"><br>
 				</div>
 
 
 				<div class="user_profile_form col-10">
-					<p><strong><span id='meeting_profile_first_name'></span> <span id='meeting_profile_last_name'></span></strong></p>
-					<p><span id='meeting_profile_organisation'></span>: <span id='meeting_profile_job_title'></span></p>
-					<p><span id='meeting_profile_bio'></span></p>
+					<p><strong>Request <span id='meetingtofromlabel'></span> <span id='meeting_profile_first_name'></span> <span id='meeting_profile_last_name'></span></strong></p>
+					<p><a class='normallink' id='meeting_showhidelabel'>Show profile details</a></p>
+					<div id='meeting_personaldetails' style='display:none'>
+						<p><span id='meeting_profile_organisation'></span>: <span id='meeting_profile_job_title'></span></p>
+						<p><span id='meeting_profile_bio'></span></p>
+					</div>
 				</div>
 				
 			</div>
 					 
-		</div>
-		<input type='hidden' id='selectedmeeting' />
-		<!-- schedule -->		
-		<div id="sent_meeting_schedule" class="meeting_schedule">
+			<input type='hidden' id='selectedmeeting' />
+			<!-- schedule -->		
+			<div id="sent_meeting_schedule" class="meeting_schedule">
 
-			<h3 id="sent_meeting_status">Status: <span id='sent_meeting_direction_span'></span>, <span id='sent_meeting_status_span'></span></h3>
-			<div>
-				<strong for="schdlr_dt_tm">Date &amp; Time</strong>: 
-				<span id='sent_meeting_date'></span>
-				<span id='sent_meeting_rearrange_date_span' style='display:none'><input type='datetime-local' id='sent_meeting_rearrange_date'/></span>
-			</div>
+				<h4 id="sent_meeting_status"><strong>Status: </strong><span id='sent_meeting_direction_span'></span>, <span id='sent_meeting_status_span'></span></h4>
+				
+				<div>
+					<strong for="schdlr_dt_tm">Date &amp; Time</strong>: 
+					<span id='sent_meeting_date'></span>
+					<span id='sent_meeting_rearrange_date_span' style='display:none'><input type='datetime-local' id='sent_meeting_rearrange_date'/></span>
+				</div>
 
-			<div>
-				<strong for="schdlr_lctn">Location</strong>: 
-				<span id='sent_meeting_location'></span>
-				<span id='sent_meeting_rearrange_location_span' style='display:none'><input type='text' id='sent_meeting_rearrange_location'/></span>
-			</div>
+				<div>
+					<strong for="schdlr_lctn">Location</strong>: 
+					<span id='sent_meeting_location'></span>
+					<span id='sent_meeting_rearrange_location_span' style='display:none'><input type='text' id='sent_meeting_rearrange_location'/></span>
+				</div>
 
-			<div>
-				<strong for="schdlr_msg">Message</strong>: <br>
-				<span id='sent_meeting_message'></span>
-			</div>
+				<div>
+					<strong for="schdlr_msg">Message</strong>: <br>
+					<span id='sent_meeting_message'></span>
+				</div>
+										
+				<div>
+					<strong for="responder_msg">Response</strong>: <br>
+					<span id='sent_meeting_response_text'></span>
+					<span id='sent_meeting_response_input' style='display:none'><textarea id='sent_meeting_response_textarea'></textarea></span>
+				</div>
+
+				<fieldset>
+					<button type="button" id="accept_meeting_btn" style='display:none' class=" grey_btn">Accept</button>
+					<button type="button" id="amend_meeting_btn" style='display:none' class=" grey_btn">Amend</button>
+					<button type="button" id="rearrange_meeting_send_btn" style='display:none' class=" grey_btn">Send request</button>
+					<button type="button" id="rearrange_meeting_cancel" style='display:none' class=" grey_btn">Cancel</button>
+				</fieldset>
+				<fieldset>			
+					<button type="button" id="reject_meeting_btn" style='display:none' class="red_btn">Decline</button>
+				</fieldset>
 									
-			<div>
-				<strong for="responder_msg">Response</strong>: <br>
-				<span id='sent_meeting_response_text'></span>
-				<span id='sent_meeting_response_input' style='display:none'><textarea id='sent_meeting_response_textarea'></textarea></span>
 			</div>
-
-			<fieldset>
-				<button type="button" id="accept_meeting_btn" style='display:none' class=" grey_btn">Accept</button>
-				<button type="button" id="amend_meeting_btn" style='display:none' class=" grey_btn">Amend</button>
-				<button type="button" id="rearrange_meeting_send_btn" style='display:none' class=" grey_btn">Send request</button>
-			</fieldset>
-			<fieldset>			
-				<button type="button" id="reject_meeting_btn" style='display:none' class="red_btn">Decline</button>
-			</fieldset>
-								
-		</div>
-		
-		<div id='meeting_response_error' class='errormessage'></div>
-		<div id='meeting_response_success' class='successmessage'></div>
+			
+			<div class='col-12 text-center' id='meeting_spinner' style='display:none'>
+				<i class="fa fa-spinner fa-spin" style="font-size:24px"></i> 
+			</div>
+			<div id='meeting_response_error' class='errormessage'></div>
+			<div id='meeting_response_success' class='successmessage'></div>
 							
+		</div>
 	</div>
     
 	<div data-role="page" class='mypage' id="delegateSeminarDetails">

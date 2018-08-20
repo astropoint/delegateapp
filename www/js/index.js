@@ -10,6 +10,7 @@ $(document).ready(function(){
 			//check the status of the internet every 10 seconds
 			setInterval(function(){
 				checkInternet();
+				checkConfLastUpdated();
 			}, 10000);
 });
 
@@ -27,7 +28,7 @@ function onDeviceReady(){
 var apiURL = "https://reg.bookmein2.com/api/api.php";
 var isInternet = true;
 var numconferences = 0;
-var curconf = -1;
+var curconference = -1;
 var curapikey = "";
 
 function checkInternet(){
@@ -58,6 +59,26 @@ function checkInternet(){
 	});
 }
 
+function checkConfLastUpdated(){
+	if (curconference>0) {
+			var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
+			var data = "action=getconferencedetailslastupdate&apikey="+thisapikey;
+			
+			$.ajax({
+				url: apiURL,
+				data: data,
+				dataType: "json",
+				type: 'post',
+			}).done(function(response){
+				console.log(response.data.last_updated);
+				console.log(localStorage.getItem("conf_"+curconference+"_last_update"));
+				if(response.data.last_updated!=localStorage.getItem("conf_"+curconference+"_last_updated")){
+					checkAndUpdateCurConference();
+				}
+			});
+	}
+}
+
 function checkNumConferences(){
 	if (localStorage.getItem("numconferences") !== null) {
 		numconferences = localStorage.getItem("numconferences");
@@ -72,8 +93,10 @@ function checkAndUpdateCurConference(){
 		curconference = localStorage.getItem("curconference");
 		curapikey = localStorage.getItem("curapikey");
 		refreshConferenceData(curconference, true);
+	}else if (localStorage.getItem("curconference") == "0") {
+		//do nothing, assume we're somewhere useful
 	}else{
-		curconf = -1;
+		curconference = -1;
 		curapikey = "";
 		location.href = "#delegateLogin";
 	}
@@ -123,6 +146,8 @@ $(document).on('click', ".speakerlist", function(e){
 });
 
 $(document).on('click', '#close_btn', function(){
+	curconference = 0;
+	localStorage.setItem("curconference", 0);
 	resetAllFields();
 });
 
@@ -155,7 +180,7 @@ $(document).on('click', '.menu_link', function(e){
 });
 
 
-$(document).on('click',".conf_btn_delete",function(e){
+$(document).on('click',".removeconferencerow",function(e){
 	var thisid = $(this).attr('id').split("_")[1];
 	clearConference(thisid);
 	fill_conference_data();
@@ -164,10 +189,9 @@ $(document).on('click',".conf_btn_delete",function(e){
 $(document).on('click',".conf_btn",function() {		
 	var thisid = $(this).attr('id').split("_")[1];
 	
-	curconf = thisid;
 	curconference = thisid;
 	curapikey = localStorage.getItem("conf_"+thisid+"_apikey");
-	localStorage.setItem('curconference', curconf);
+	localStorage.setItem('curconference', curconference);
 	localStorage.setItem('curapikey', curapikey);
 	refreshConferenceData(thisid, true);
 	location.href = "#delegateHome";
@@ -270,6 +294,9 @@ $(document).on('click',"#log_in_btn",function(e){
 					localStorage.setItem("numconferences", numconferences);
 					
 					fill_conference_data();
+					curconference = 0;
+					localStorage.setItem("curconference", 0);
+					
 					location.href = "#delegateIndex";
 				}else{
 					$('#login_response').html("The details you entered did not match an account in our system");
@@ -546,6 +573,7 @@ function refreshCurConference(){
 	$('#conference_name').html(localStorage.getItem("conf_"+curconference+"_name"));
 	$('.conference_name').html(localStorage.getItem("conf_"+curconference+"_name"));
 	$('#conference_desc').html(localStorage.getItem("conf_"+curconference+"_desc"));
+	$('#conference_address').html(localStorage.getItem("conf_"+curconference+"_address"));
 	$('#conference_image').attr('src', 'data:image/png;base64,'+localStorage.getItem("conf_"+curconference+"_image"));
 	var start_date = localStorage.getItem("conf_"+curconference+"_start_date");
 	var start_date_object = new Date(start_date);
@@ -765,10 +793,13 @@ function refreshConferenceData(conferenceid, updatecurconf){
 		dataType: "json",
 		type: 'post',
 	}).done(function(response){
-		localStorage.setItem("conf_"+numconferences+"_mapcoords", response.data.conf_mapcoords);
-		localStorage.setItem("conf_"+numconferences+"_image", response.data.conf_image);
-		localStorage.setItem("conf_"+numconferences+"_desc", response.data.conf_desc);
-		localStorage.setItem("conf_"+numconferences+"_name", response.data.conf_name);
+		localStorage.setItem("conf_"+conferenceid+"_mapcoords", response.data.conf_mapcoords);
+		localStorage.setItem("conf_"+conferenceid+"_image", response.data.conf_image);
+		localStorage.setItem("conf_"+conferenceid+"_desc", response.data.conf_desc);
+		localStorage.setItem("conf_"+conferenceid+"_name", response.data.conf_name);
+		localStorage.setItem("conf_"+conferenceid+"_address", response.data.conference_address);
+		localStorage.setItem("conf_"+conferenceid+"_start_date", response.data.start_date);
+		localStorage.setItem("conf_"+conferenceid+"_last_updated", response.data.last_updated);
 		
 		if(updatecurconf){
 			refreshCurConference();
@@ -782,6 +813,7 @@ function refreshConferenceData(conferenceid, updatecurconf){
 
 function fill_conference_data(){
 	var conflisthtml = "";
+	console.log(numconferences);
 	
 	for(var i = 1; i<=numconferences;i++){
 		if(localStorage.getItem("conf_"+i+"_active")=='1'){
@@ -791,8 +823,8 @@ function fill_conference_data(){
 			//conflisthtml += "<p id='email_login_"+i+"'>"+localStorage.getItem("conf_"+i+"_email")+"</p>";
 			conflisthtml += "<p id='start_date_"+i+"'>Start Date: "+localStorage.getItem("conf_"+i+"_start_date")+"</p>";
 			conflisthtml += "</div></div>";
-			conflisthtml += "<div class='row removeconferencerow'><div class='conf_btn_delete fakebutton col-12'>";
-			conflisthtml += "<div class='conferencedeleterow'  id='conferencedelete_"+i+"'>Remove "+localStorage.getItem("conf_"+i+"_name")+"</div>"
+			conflisthtml += "<div class='row removeconferencerow' id='conferencedelete_"+i+"'><div class='conf_btn_delete fakebutton col-12'>";
+			conflisthtml += "<div class='conferencedeleterow'>Remove "+localStorage.getItem("conf_"+i+"_name")+"</div>"
 			conflisthtml += "</div></div>"; 
 		}
 	}
@@ -1227,6 +1259,9 @@ function clearConference(conferenceid){
 	localStorage.removeItem("conf_"+conferenceid+"_image");
 	localStorage.removeItem("conf_"+conferenceid+"_desc");
 	localStorage.removeItem("conf_"+conferenceid+"_name");
+	localStorage.removeItem("conf_"+conferenceid+"_last_updated");
+	localStorage.removeItem("conf_"+conferenceid+"_address");
+	localStorage.removeItem("conf_"+conferenceid+"_start_date");
 	var meetinglist = localStorage.getItem("conf_"+numconferences+"_meetingslist");
 	if(meetinglist!=''){
 		var meetinglistarray = meetinglist.split(",");
@@ -1275,6 +1310,7 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 			
 	switch (ui.toPage.prop("id")) {
 		case "delegateIndex":
+			fill_conference_data();
 			break;
 		case "delegateLogin":
 			break;

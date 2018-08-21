@@ -550,38 +550,42 @@ function uploadPhoto() {
 	var ft = new FileTransfer();
 		
 	var uploadURL = apiURL;
-	ft.upload(imageURI, uploadURL, function(result){
-			$('#profilestatusresponse').show();
-			$('#profilestatusresponse').html('response:<br>');
-				$('#profilestatusresponse').append(JSON.stringify(result));
-		try{
-			var output = JSON.parse(result.response);
-			if(output.success){
-				$('#profilepicture').attr('src', siteURL+output.data.profileimg_thumb);
-				$('#profileimgupdate').val('1');
-			}else{
+	try{
+		ft.upload(imageURI, uploadURL, function(result){
 				$('#profilestatusresponse').show();
-				$('#profilestatusresponse').append("Unable to save image: "+output.message);
+				$('#profilestatusresponse').html('response:<br>');
+					$('#profilestatusresponse').append(JSON.stringify(result));
+			try{
+				var output = JSON.parse(result.response);
+				if(output.success){
+					$('#profilepicture').attr('src', siteURL+output.data.profileimg_thumb);
+					$('#profileimgupdate').val('1');
+				}else{
+					$('#profilestatusresponse').show();
+					$('#profilestatusresponse').append("Unable to save image: "+output.message);
+				}
+				$('#updateprofileimagespinner').hide();
+				$('#profilepicture').show();
+			}catch(error){
+				$('#profileimagestatus').show();
+				$('#updateprofileimagespinner').hide();
+				if(parseInt(result.bytesSent)>(maxUploadSize*1024*1024)){
+					$('#profileimagestatus').html("The file you are trying to upload is too large, please select an image less than "+maxUploadSize+"MB large");
+				}else{
+					$('#profileimagestatus').append("Unable to upload/save image");
+					$('#profilestatusresponse').show();
+					$('#profilestatusresponse').append(error);
+				}
 			}
+		}, function(error){
 			$('#updateprofileimagespinner').hide();
 			$('#profilepicture').show();
-		}catch(error){
 			$('#profileimagestatus').show();
-			$('#updateprofileimagespinner').hide();
-			if(parseInt(result.bytesSent)>(maxUploadSize*1024*1024)){
-				$('#profileimagestatus').html("The file you are trying to upload is too large, please select an image less than "+maxUploadSize+"MB large");
-			}else{
-				$('#profileimagestatus').append("Unable to upload/save image");
-				$('#profilestatusresponse').show();
-				$('#profilestatusresponse').append(error);
-			}
-		}
-	}, function(error){
-		$('#updateprofileimagespinner').hide();
-		$('#profilepicture').show();
-		$('#profileimagestatus').show();
-		$('#profileimagestatus').append(error.response);
-	}, options);
+			$('#profileimagestatus').append(error.response);
+		}, options);
+	}catch(er){
+		alert(er);
+	}
 }
 
 var base_image = null;

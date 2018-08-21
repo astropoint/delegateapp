@@ -551,14 +551,15 @@ function uploadPhoto() {
 		
 	var uploadURL = apiURL;
 	ft.upload(imageURI, uploadURL, function(result){
-		
+			$('#profilestatusresponse').show();
+				$('#profilestatusresponse').html(JSON.stringify(result));
 		try{
 			var output = JSON.parse(result.response);
 			if(output.success){
 				$('#profilepicture').attr('src', siteURL+output.data.profileimg_thumb);
 				$('#profileimgupdate').val('1');
-				$('#profilestatusresponse').html( siteURL+output.data.profileimg_thumb);
 			}else{
+				$('#profilestatusresponse').show();
 				$('#profilestatusresponse').html("Unable to save image: "+output.message);
 			}
 			$('#updateprofileimagespinner').hide();

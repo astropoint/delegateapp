@@ -548,6 +548,7 @@ function uploadPhoto() {
 	options.chunkedMode = false;
 
 	var ft = new FileTransfer();
+	alert(ft);
 		
 	var uploadURL = apiURL;
 	try{

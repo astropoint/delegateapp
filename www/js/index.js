@@ -31,6 +31,7 @@ var isInternet = true;
 var numconferences = 0;
 var curconference = -1;
 var curapikey = "";
+var maxUploadSize = 8;
 
 function checkInternet(){
 	isInternet = true;
@@ -511,10 +512,16 @@ $(document).on('click',".clickbuttongetgetperson",function(e) {
 }); 
 
 $(document).on('click',"#imagepickerprofile",function() {
+	$('#updateprofileimagespinner').show();
+	$('#profilepicture').hide();
+	$('#profileimagestatus').hide();
 	navigator.camera.getPicture(saveLocalPhoto, function(message) {
-		alert('get picture failed');
+		$('#profileimagestatus').show();
+		$('#profileimagestatus').html("Error selecting image");
+		$('#updateprofileimagespinner').hide();
+		$('#profilepicture').show();
 	}, {
-		quality: 100,
+		quality: 25,
 		destinationType: navigator.camera.DestinationType.FILE_URI,
 		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
 	});
@@ -533,7 +540,6 @@ function uploadPhoto() {
 	options.fileKey = "file";
 	options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
 	options.mimeType = "image/jpeg";
-	console.log(options.fileName);
 	var params = new Object();
 	params.deferprofilesave = "1";
 	params.action = "setpic";
@@ -545,15 +551,34 @@ function uploadPhoto() {
 		
 	var uploadURL = apiURL;
 	ft.upload(imageURI, uploadURL, function(result){
-		console.log(JSON.stringify(result));
-		var output = JSON.parse(result.response);
-		if(output.success){
-			$('#profilepicture').attr('src', siteURL+output.data.profileimg_thumb);
-			$('#profileimgupdate').val('1');
-		}
 		
+		try{
+			var output = JSON.parse(result.response);
+			if(output.success){
+				$('#profilepicture').attr('src', siteURL+output.data.profileimg_thumb);
+				$('#profileimgupdate').val('1');
+				$('#profilestatusresponse').html( siteURL+output.data.profileimg_thumb);
+			}else{
+				$('#profilestatusresponse').html("Unable to save image: "+output.message);
+			}
+			$('#updateprofileimagespinner').hide();
+			$('#profilepicture').show();
+		}catch(error){
+			$('#profileimagestatus').show();
+			$('#updateprofileimagespinner').hide();
+			if(parseInt(result.bytesSent)>(maxUploadSize*1024*1024)){
+				$('#profileimagestatus').html("The file you are trying to upload is too large, please select an image less than "+maxUploadSize+"MB large");
+			}else{
+				$('#profileimagestatus').html("Unable to upload/save image");
+				$('#profilestatusresponse').show();
+				$('#profilestatusresponse').html(error);
+			}
+		}
 	}, function(error){
-		console.log(JSON.stringify(error));
+		$('#updateprofileimagespinner').hide();
+		$('#profilepicture').show();
+		$('#profileimagestatus').show();
+		$('#profileimagestatus').html(error.response);
 	}, options);
 }
 

@@ -20,7 +20,7 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 
 var destinationType;
 function onDeviceReady(){
-		attendees = new Object(); //this can be done on declaration
+	
 		pictureSource=navigator.camera.PictureSourceType;
 		destinationType=navigator.camera.DestinationType;
 }

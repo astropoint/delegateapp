@@ -552,7 +552,8 @@ function uploadPhoto() {
 	var uploadURL = apiURL;
 	ft.upload(imageURI, uploadURL, function(result){
 			$('#profilestatusresponse').show();
-				$('#profilestatusresponse').html(JSON.stringify(result));
+			$('#profilestatusresponse').html('response:<br>');
+				$('#profilestatusresponse').append(JSON.stringify(result));
 		try{
 			var output = JSON.parse(result.response);
 			if(output.success){
@@ -560,7 +561,7 @@ function uploadPhoto() {
 				$('#profileimgupdate').val('1');
 			}else{
 				$('#profilestatusresponse').show();
-				$('#profilestatusresponse').html("Unable to save image: "+output.message);
+				$('#profilestatusresponse').append("Unable to save image: "+output.message);
 			}
 			$('#updateprofileimagespinner').hide();
 			$('#profilepicture').show();
@@ -570,16 +571,16 @@ function uploadPhoto() {
 			if(parseInt(result.bytesSent)>(maxUploadSize*1024*1024)){
 				$('#profileimagestatus').html("The file you are trying to upload is too large, please select an image less than "+maxUploadSize+"MB large");
 			}else{
-				$('#profileimagestatus').html("Unable to upload/save image");
+				$('#profileimagestatus').append("Unable to upload/save image");
 				$('#profilestatusresponse').show();
-				$('#profilestatusresponse').html(error);
+				$('#profilestatusresponse').append(error);
 			}
 		}
 	}, function(error){
 		$('#updateprofileimagespinner').hide();
 		$('#profilepicture').show();
 		$('#profileimagestatus').show();
-		$('#profileimagestatus').html(error.response);
+		$('#profileimagestatus').append(error.response);
 	}, options);
 }
 

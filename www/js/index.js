@@ -25,7 +25,8 @@ function onDeviceReady(){
 		destinationType=navigator.camera.DestinationType;
 }
 
-var apiURL = "https://reg.bookmein2.com/api/api.php";
+var siteURL = "https://reg.bookmein2.com";
+var apiURL = siteURL+"/api/api.php";
 var isInternet = true;
 var numconferences = 0;
 var curconference = -1;
@@ -323,10 +324,7 @@ $(document).on('click',"#updt_profile_btn",function() {
 		data += "&first_name="+encodeURIComponent($('#delegateUser_Profile').find('input[name="f_name"]').val());
 		data += "&last_name="+encodeURIComponent($('#delegateUser_Profile').find('input[name="s_name"]').val());
 		data += "&organisation="+encodeURIComponent($('#delegateUser_Profile').find('input[name="org"]').val());
-		if( typeof(receiptPicture)!==null && receiptPicture!=null && receiptPicture!='' && receiptPicture!='null'){
-			data += "&profileimage="+encodeURIComponent(receiptPicture);
-		} 
-		$('#piccyoutput').val(receiptPicture);
+		data += "&profileimgupdate="+encodeURIComponent($('#delegateUser_Profile').find('input[name="profileimgupdate"]').val());
 		$.ajax({
 			url: apiURL,
 			data: data,
@@ -336,6 +334,7 @@ $(document).on('click',"#updt_profile_btn",function() {
 			if(response.success){
 				$('#profilestatusresponse').show();
 				$('#profilestatusresponse').html("Succesfully updated profile");
+				$('#profileimgupdate').val('0');
 				setTimeout(function(){
 					$('#profilestatusresponse').hide();
 				}, 5000);
@@ -384,7 +383,6 @@ $(document).on('click', '#rearrange_meeting_send_btn', function(){
 					type: 'post',
 				}).done(function(response){
 					refreshProfilePage();
-					//$('#piccyoutput').html(response); 
 					if(response.success){
 						$('#meeting_response_success').html("Responded with new meeting request");
 						getMeetingRequests(showMeetingDetails);
@@ -450,7 +448,6 @@ function respondMeeting(type){
 					type: 'post',
 				}).done(function(response){
 					refreshProfilePage();
-					//$('#piccyoutput').html(response); 
 					if(response.success){
 						$('#meeting_response_success').html("Accepted meeting");
 						getMeetingRequests(showMeetingDetails);
@@ -514,21 +511,52 @@ $(document).on('click',".clickbuttongetgetperson",function(e) {
 }); 
 
 $(document).on('click',"#imagepickerprofile",function() {
-	navigator.camera.getPicture(onPhotoURISuccess, onFail, { 
-		quality: 20,
-		destinationType: destinationType.DATA_URL,
-		sourceType: pictureSource.PHOTOLIBRARY
+	navigator.camera.getPicture(saveLocalPhoto, function(message) {
+		alert('get picture failed');
+	}, {
+		quality: 100,
+		destinationType: navigator.camera.DestinationType.FILE_URI,
+		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
 	});
 });
-var receiptPicture;
-function onPhotoURISuccess(ReceiptPhoto){
-	$('#profilepicture').attr('src', "data:image/jpeg;base64,"+ReceiptPhoto);
-	//$('#piccyoutput').val(ReceiptPhoto);
-	receiptPicture = ReceiptPhoto;
+
+var imageURI;
+function saveLocalPhoto(fromCamera){
+	imageURI = fromCamera;
+	uploadPhoto();
 }
-function onFail(){
-	alert("Please try selecting the file again");
+
+function uploadPhoto() {
+	var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
+	
+	var options = new FileUploadOptions();
+	options.fileKey = "file";
+	options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	options.mimeType = "image/jpeg";
+	console.log(options.fileName);
+	var params = new Object();
+	params.deferprofilesave = "1";
+	params.action = "setpic";
+	params.apikey = thisapikey;
+	options.params = params;
+	options.chunkedMode = false;
+
+	var ft = new FileTransfer();
+		
+	var uploadURL = apiURL;
+	ft.upload(imageURI, uploadURL, function(result){
+		console.log(JSON.stringify(result));
+		var output = JSON.parse(result.response);
+		if(output.success){
+			$('#profilepicture').attr('src', siteURL+output.data.profileimg_thumb);
+			$('#profileimgupdate').val('1');
+		}
+		
+	}, function(error){
+		console.log(JSON.stringify(error));
+	}, options);
 }
+
 var base_image = null;
 
 function refreshProfilePage(){
@@ -547,6 +575,8 @@ function refreshProfilePage(){
 			localStorage.setItem("conf_"+curconference+"_organisation", response.data.organisation);
 			localStorage.setItem("conf_"+curconference+"_job_title", response.data.job_title);
 			localStorage.setItem("conf_"+curconference+"_bio", response.data.bio);
+			localStorage.setItem("conf_"+curconference+"_profileimg", response.data.profileimg);
+			localStorage.setItem("conf_"+curconference+"_profileimg_thumb", response.data.profileimg_thumb);
 			
 			
 			$('#f_name').val(localStorage.getItem("conf_"+curconference+"_first_name"));
@@ -554,7 +584,13 @@ function refreshProfilePage(){
 			$('#org').val(localStorage.getItem("conf_"+curconference+"_organisation"));
 			$('#job_title').val(localStorage.getItem("conf_"+curconference+"_job_title"));
 			$('#bio').val(localStorage.getItem("conf_"+curconference+"_bio"));
-
+			if(localStorage.getItem("conf_"+curconference+"_profileimg_thumb")!=''){
+				var imgurl = siteURL+"/images/profile/"+localStorage.getItem("conf_"+curconference+"_id")+"/"+localStorage.getItem("conf_"+curconference+"_profileimg_thumb");
+				$('#profilepicture').attr('src', imgurl);
+				$('#profilepicture').show(); 
+			}else{
+				$('#profilepicture').hide();
+			}
 		});
 	}else{
 		$('#f_name').val(localStorage.getItem("conf_"+curconference+"_first_name"));
@@ -562,6 +598,13 @@ function refreshProfilePage(){
 		$('#org').val(localStorage.getItem("conf_"+curconference+"_organisation"));
 		$('#job_title').val(localStorage.getItem("conf_"+curconference+"_job_title"));
 		$('#bio').val(localStorage.getItem("conf_"+curconference+"_bio"));
+		if(localStorage.getItem("conf_"+curconference+"_profileimg_thumb")!=''){
+			var imgurl = siteURL+"/images/profile/"+localStorage.getItem("conf_"+curconference+"_id")+"/"+localStorage.getItem("conf_"+curconference+"_profileimg_thumb");
+			$('#profilepicture').attr('src', imgurl);
+			$('#profilepicture').show();
+		}else{
+			$('#profilepicture').hide();
+		}
 	}
 	
 }

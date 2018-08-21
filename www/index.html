@@ -34,6 +34,8 @@
 				<!-- Add jQuery mobile -->
 		<link rel="stylesheet" href="./js/jquery.mobile-1.4.5.css" />
 		<script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
+
+		<script type="text/javascript" src="cordova.js"></script>
 		<!-- All js to go in here inside ondeviceready fn -->
 		<script type="text/javascript" src="js/index.js" defer></script>
 		<script src='js/bootstrap.min.js' defer></script>
@@ -97,7 +99,7 @@
                 <div id="gdpr_terms_sttmnt">
                     <p class="close_btn right">&times;</p>
                     <p>General Privacy Conditions</p>
-                    <p>v0.0.14</p>
+                    <p>v0.0.15</p>
                 </div>
             </div>				
 			
@@ -542,15 +544,13 @@
 			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 			
 			<h1>My Profile</h1>
-			<!--
 			<div id="my_profile_photo_div">
-				<img id="profilepicture" src="user_photo.png" alt="profile photo">
+				<img style='display:none' id="profilepicture" src="" alt="profile photo">
 				<button id = "imagepickerprofile">Choose New Picture</button>
 			</div>
 			
-			<textarea id='piccyoutput'>Stuff2</textarea> 
-			-->
 			<form id="myprofileform" class="my_profile_form">
+				<input type='hidden' name='profileimgupdate' id='profileimgupdate' value='0' />
 				<fieldset>
 					<label for="f_name">Forename</label>
 					<input type="text" id="f_name" name="f_name" maxlength="100" class="f_name">
@@ -595,8 +595,6 @@
 		<a class='menu_link' href="#delegateHome">Conference Home<img src="home_icon.png" alt="home icon"></a>
 		<a class='menu_link' href="#delegateIndex" id="close_btn">Logout<img src="exit_icon.jpg" alt="exit icon"></a>
 	</div>
-
-		<script type="text/javascript" src="cordova.js"></script>
 
 </body>
 

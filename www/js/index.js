@@ -1093,26 +1093,24 @@ function updateAgendaPage(clearint, direction){
 	var output = "";
 	agenda.forEach(function(item, index){
 		if(item['type']=='Meeting'){
-			output += "<div id='meetingagenda-"+item['id']+"' class='fakedarkbutton gotomeetingbutton row text-center'>";
-			output += "<h2 class='col-12'>Meeting<br>"+item['first_name']+" "+item['last_name'];
-			if(item['job_title']!='' || item['organisation']!=''){
-				output += "<br>";
-				if(item['job_title']!=''){
-					output += item['job_title'];
-					if(item['organisation']!=''){
-						output += " - ";
-					}
-				}
-				
-				if(item['organisation']!=''){
-					output += item['organisation'];
-				}
+			output += "<button id='meeting-"+item['id']+"' class='gotomeetingbutton ui-btn ui-shadow ui-corner-all row'>";
+			output += "<div class='col-12 text-right'>"+status_symbol(item['status'])+"</div>";
+			output += "<h3 class='col-12 text-left'>";
+			if(item['incoming']==0){
+				//this user is the sender
+				output += "To: " + item['first_name'];
+				output += " " + item['last_name'];
+				output += "<br>" + item['organisation'];
+			}else{
+				//this user is the receiver
+				output += "From: " + item['first_name'];
+				output += " " + item['last_name'];
+				output += "<br>" + item['organisation'];
 			}
-			if(item['location']!=''){
-				output += "<br>"+item['location'];
-			}
-			output += "<br><span class='grey_txt'>"+dateWithoutSeconds(item['date'])+"</span>";
-			output += "</h2></div>";
+			output += "</h3>";
+			output += "<h4 class='col-12 text-left'>"+formattedDate(item['date'])+"</h3>";
+			output += "</button>";
+			
 		}else if(item['type']=='Seminar'){
 			output += "<div id='seminaragenda-"+item['id']+"' class='gotoseminar row fakedarkbutton text-center'>";
 			output += "<h2 class='col-12'>Seminar";
@@ -1123,9 +1121,9 @@ function updateAgendaPage(clearint, direction){
 			if(typeof(item['location']!='')!==null && item['location']!== null && item['location']!='null' && item['location']!=''){
 				output += item['location']+"<br>";
 			}
-			output += "<span class='grey_txt'>"+dateWithoutSeconds(item['date']);
+			output += "<span class='grey_txt'>"+formattedDate(item['date']);
 			if(typeof(item['end_date']!='')!==null && item['end_date']!== null && item['end_date']!='null' && item['end_date']!=''){
-				output += "<br> to <br>"+dateWithoutSeconds(item['end_date']);
+				output += "<br> to <br>"+formattedDate(item['end_date']);
 			}
 			output += "</span>";
 			output += "</h2></div>";
@@ -1137,6 +1135,16 @@ function updateAgendaPage(clearint, direction){
 
 function dateWithoutSeconds(date){
 	return date.substring(0, date.length - 3);
+}
+
+
+function formattedDate(date){
+	var d = new Date(date.split(" ")[0]);
+	var time = date.split(" ")[1].split(":");
+	
+	var newdate = d.getDate()+" "+months[d.getMonth()] + " " +time[0] + ":" + time[1];
+	
+	return newdate;
 }
 
 function compareAgenda(a, b){
@@ -1173,18 +1181,17 @@ function updateMeetingRequestsPage(){
 			output += "<h3 class='col-12 text-left'>";
 			if(localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_reference") == localStorage.getItem("conf_"+curconference+"_reference")){
 				//this user is the sender
-				output += "To " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_first_name");
+				output += "To: " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_first_name");
 				output += " " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_last_name");
 				output += "<br>" + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_receiver_organisation");
 			}else{
 				//this user is the receiver
-				output += "From " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_first_name");
+				output += "From: " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_first_name");
 				output += " " + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_last_name");
 				output += "<br>" + localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_sender_organisation");
 			}
 			output += "</h3>";
-			output += "<h4 class='col-12 text-left'>"+localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_meeting_date")+"</h3>";
-			//output += "<h4 class='right'>"+localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_last_update")+"</h4>";
+			output += "<h4 class='col-12 text-left'>"+formattedDate(localStorage.getItem("conf_"+curconference+"_meeting_"+item+"_meeting_date"))+"</h3>";
 			output += "</button>";
 		});;
 	}else{

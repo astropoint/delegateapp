@@ -184,15 +184,18 @@
 			</div>
 			<!-- more conference info div -->
 			<div id="more_conference_info" class="hide">					
-				<img id="conference_image" src="conference_image.png" alt="conference image">
+				<div style='width:100%;text-align:center'><img id="conference_image" src="conference_image.png" alt="conference image"></div>
 				<!--More Conference Info to go here, JS-->					
-				<p id='conference_desc'></p>
-
-				<!-- Address and maps icon -->
-				<div id="addr_icon" class="left">
-					<div id='conference_address'></div>
-					<a href='' id='conf_map_link_a'><img src="maps_icon.png" alt="open in maps" id='conf_map_link'></a>
+				<div class='row'>
+					<div id='conference_desc' class='col-12'></div>
 				</div>
+				<div class='row'>
+					<div id='conference_address' class='col-8'></div>
+					<div id="addr_icon" class="col-4">
+						<a href='' id='conf_map_link_a'><img src="maps_icon.png" alt="open in maps" id='conf_map_link'></a>
+					</div>
+				</div>
+				
 				<!-- Conf Info visibility button? -->
 				<p id="less_info_btn"><a href="#" onclick="toggle_content('more_conference_info', 'less_conference_info')">less info &#9650;</a></p>			
 			</div>

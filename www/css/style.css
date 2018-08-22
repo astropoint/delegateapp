@@ -206,8 +206,8 @@ a {
 
 #home_action_tabs div{
 	width:49.6%;
-	border-right:thin solid grey;
-	cursor: pointer;}
+	cursor: pointer;
+}
 	
 #home_action_tabs img{
 	width:100%;}
@@ -221,12 +221,10 @@ a {
 	margin: 2em 0 2em 0;}
 	
 #more_conference_info img{
-	width:100%;}
+	max-width:100%;
+	text-align:center;
+}
 
-#addr_icon { /*map icon img*/
-	width:10%;
-	margin: 1em 1em 0 0;}
-	
 #addr_text {
 	display: inline;}
 	
@@ -280,16 +278,6 @@ a {
 	text-align:right;
 	color: #ccc;}
 	
-#agenda_list button {
-	float:left;
-	width:100%;
-	border: thin solid #000;
-	border-radius: 10px;
-	margin: 0.5em 0 0.5em 0;
-	background-color: #c8c8c8;
-	cursor:pointer;
-	height: auto;}
-	
 #agenda_list p {
 	text-align:left;
 	margin-left:1em;
@@ -301,7 +289,7 @@ a {
 	text-align:right;
 	color: #ccc;}
 	
-#meetings_list button {
+#meetings_list button, #agenda_list button {
 	float:left;
 	width:100%;
 	border: thin solid #000;
@@ -377,11 +365,6 @@ textarea {
 
 .hide {
 	display: none;
-}
-
-.right_border {
-	border-right:thin solid grey;
-	height:100%;
 }
 
 .bold {

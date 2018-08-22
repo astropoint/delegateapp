@@ -480,9 +480,6 @@ $(document).on('click', '#send_meeting_btn', function(e){
 		if($('#createmeeting_date').val()!=''){
 			var thisapikey = localStorage.getItem("conf_"+curconference+"_apikey");
 			var data = "action=requestmeeting&apikey="+thisapikey;
-			var meetingtime = $('#createmeeting_date').val();
-			var meetingtime = $('#createmeeting_location').val();
-			var meetingtime = $('#createmeeting_message').val();
 			
 			data += "&meeting_date="+encodeURIComponent($('#createmeeting_date').val());
 			data += "&location="+encodeURIComponent($('#schdlr_lctn').val());
@@ -495,6 +492,10 @@ $(document).on('click', '#send_meeting_btn', function(e){
 				type: 'post',
 			}).done(function(response){
 				location.href = '#delegateAgenda';
+				$('#createmeeting_date').val('');
+				$('#schdlr_lctn').val('');
+				$('#schdlr_msg').val('');
+				$('#selectedattendeeref').val('');
 			});
 		}else{
 			$('#otherprofilestatusresponse').show();
@@ -984,6 +985,7 @@ function getSeminars(callback){
 					localStorage.setItem("conf_"+curconference+"_seminar_"+response.data.seminars[i].id+"_start_time", response.data.seminars[i].start_time);
 					localStorage.setItem("conf_"+curconference+"_seminar_"+response.data.seminars[i].id+"_end_time", response.data.seminars[i].end_time);
 					localStorage.setItem("conf_"+curconference+"_seminar_"+response.data.seminars[i].id+"_location", response.data.seminars[i].location);
+					localStorage.setItem("conf_"+curconference+"_seminar_"+response.data.seminars[i].id+"_description", response.data.seminars[i].description);
 					seminarlist.push(response.data.seminars[i].id);
 				}
 				localStorage.setItem("conf_"+numconferences+"_seminarlist", seminarlist.join(","));
@@ -1085,6 +1087,7 @@ function updateAgendaPage(clearint, direction){
 			thisseminar['name'] = localStorage.getItem("conf_"+curconference+"_seminar_"+item+"_seminar_name");
 			thisseminar['reference'] = localStorage.getItem("conf_"+curconference+"_seminar_"+item+"_seminar_reference");
 			thisseminar['location'] = localStorage.getItem("conf_"+curconference+"_seminar_"+item+"_location");
+			thisseminar['description'] = localStorage.getItem("conf_"+curconference+"_seminar_"+item+"_description");
 			agenda.push(thisseminar);
 		});
 	}
@@ -1290,7 +1293,8 @@ function showMeetingDetails(){
 function showSeminarDetails(){
 	var selectedseminar = $('#selectedseminar').val();
 	var seminarlist = localStorage.getItem("conf_"+numconferences+"_seminarlist");
-	if(seminarlist!=''){
+	if(seminarlist!='' && selectedseminar!=''){
+		
 		var seminarlistarray = seminarlist.split(",");
 		var pos = seminarlistarray.indexOf(selectedseminar);
 		if(pos>=0){
@@ -1303,10 +1307,10 @@ function showSeminarDetails(){
 			$('#seminar_page_name').html(namedetails);
 			
 			var timedetails = "";
-			timedetails += localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_start_time");
+			timedetails += formattedDate(localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_start_time"));
 			var end_time = localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_end_time");
 			if(typeof(end_time)!==null && end_time!=null && end_time!='' && end_time!='null'){
-				timedetails += " to "+end_time;
+				timedetails += " to "+formattedDate(end_time);
 			}
 			$('#seminar_page_time').html(timedetails);
 			
@@ -1315,13 +1319,18 @@ function showSeminarDetails(){
 				$('#seminar_page_location').html(location);
 			}
 			
+			var description = localStorage.getItem("conf_"+curconference+"_seminar_"+selectedseminar+"_description");
+			if(typeof(description)!==null && description!=null && description!='' && description!='null'){
+				$('#seminar_page_description').html(description);
+			}
+			
 		}else{
 			//meeting not found, redirect to meetings page
-			location.href = "#delegateAgenda";
+			window.location.href = "#delegateAgenda";
 		}
 	}else{
 		//meeting not found, redirect to meetings page
-		location.href = "#delegateAgenda";
+		window.location.href = "#delegateAgenda";
 	}
 }
 

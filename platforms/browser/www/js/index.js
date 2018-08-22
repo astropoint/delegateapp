@@ -775,8 +775,10 @@ function showSpeakerDetails(){
 			
 			var profileimage = localStorage.getItem("conf_"+curconference+"_speakers_"+selectedspeaker+"_profile_pic");
 			if(!isInternet || typeof(profileimage)===null || typeof(profileimage)==null|| profileimage==null || profileimage==''|| profileimage=="null"|| profileimage=='null'){
-				$('#speaker_profile_img').attr('src', 'profile_placeholder.jpeg');
+				$('#speaker_profile_img').hide();
+				$('#speaker_profile_img').attr('src', '');
 			}else{
+				$('#speaker_profile_img').show();
 				$('#speaker_profile_img').attr('src', profileimage);
 			}
 			
@@ -826,9 +828,11 @@ function getAttendeeProfile(attendeeref){
 				$('#other_profile_bio').html(response.data.bio);
 				
 				if(typeof(response.data.profileimg_thumb)===null || typeof(response.data.profileimg_thumb)==null|| response.data.profileimg_thumb==null || response.data.profileimg_thumb==''|| response.data.profileimg_thumb=="null"|| response.data.profileimg_thumb=='null'){
-					$('#other_profile_img').attr('src', "profile_placeholder.jpeg");
+					$('#profile_img_div').hide();
+					$('#other_profile_img_profile').attr('src', "");
 				}else{
-					$('#other_profile_img').attr('src', "https://reg.bookmein2.com/images/profile/"+response.data.conferenceid+"/"+response.data.profileimg_thumb);
+					$('#profile_img_div').show();
+					$('#other_profile_img_profile').attr('src', "https://reg.bookmein2.com/images/profile/"+response.data.conferenceid+"/"+response.data.profileimg_thumb);
 				}
 			}else{
 				$('#other_profile_error').html("Unable to get list of attendees: "+response.error);
@@ -1532,7 +1536,8 @@ function resetAllFields(){
 	$('#people_list').html('');
 	$('#meetings_list').html('');
 	$('#speakers_list').html('');
-	$('#speaker_profile_img').attr('src', 'placeholder.jpeg');
+	$('#speaker_profile_img').attr('src', '');
+	$('#speaker_profile_img').hide();
 	$('#speaker_first_name').html('');
 	$('#speaker_last_name').html('');
 	$('#speaker_organisation').html('');

@@ -24,6 +24,9 @@
         },
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
+        },
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.jmdb.delegateapp"
         }
     },
     "dependent_plugins": {

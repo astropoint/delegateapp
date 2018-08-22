@@ -84,7 +84,7 @@
                 <input type="email" placeholder="Email address" name="email" required><br>
                 <input type="text" placeholder="Event Reference" name="event_id" required><br>
                 <input type="text" placeholder="Attendee ID" name="attendee_id" required><br>
-                <a href="#" onclick="show_terms_modal(); return false;" id="gdpr_terms_link">Terms of use &nbsp; | &nbsp; Privacy </a><br><br>
+                <a href="#termsAndPrivacy">Terms of use &nbsp; | &nbsp; Privacy </a><br><br>
                 <button type="button" id="log_in_btn">Login</button>
                 
 							<div class='ajaxresponse' id='login_response'></div>
@@ -93,18 +93,33 @@
             <div class='centeralign'>
 							<button class='returnhome'>Return home</button>
             </div>
-
-            <!-- Modal privacy and terms text, toggle visibility with JS on privacy link click-->
-            <div id="gdpr_terms_modal">
-                <div id="gdpr_terms_sttmnt">
-                    <p class="close_btn right">&times;</p>
-                    <p>General Privacy Conditions</p>
-                    <p>v0.0.18</p>
-                </div>
-            </div>				
 			
         </div>
     </div>
+    
+    
+    
+	<div data-role="page" class='mypage' id="termsAndPrivacy">
+		<div data-role="header">	
+			<title>Login Page</title>
+		</div> 
+
+		<div role="main" class="ui-content">
+			<h1>Terms &amp; Conditions</h1>
+			<p>We are storing the details</p>
+							 
+			<h1>Privacy</h1>
+			<p>The app collects the data entered by the user at the conference and this is then sent over to our servers to be used to record the delegate's and attendance.</p>
+			
+			<p></p>
+			<p class='versionnumber'>v0.0.18</p>
+			
+			<div class='centeralign'>
+				<button class='returnhome'>Return home</button>
+			</div>
+				
+		</div>
+	</div>
 
     
 		<div data-role="page" class='mypage' id="delegateHome">

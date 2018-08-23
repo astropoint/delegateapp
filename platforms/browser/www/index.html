@@ -218,6 +218,7 @@
 				<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
 				<h1 class="center">Agenda
+					<img src='refresh.png' height='30' style='cursor:pointer' class='refreshagenda' />
 					<a id='sortagendaasc' style="font-size:32px" href="javascript:history.back()">&#8595;</a>
 					<a id='sortagendadesc' style="font-size:32px" href="javascript:history.back()">&#8593;</a>
 				</h1>
@@ -251,15 +252,16 @@
 			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 			<!-- other person's profile-->
 			<div class="delegateProfile row">
-	 
 
-				<div class="col-2 profile_photo_div" id='meeting_details_photodiv'>
-					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img_meeting" alt="profile photo"><br>
+				<div class="user_profile_form col-12">
+					<p><strong>Request <span id='meetingtofromlabel'></span> <span id='meeting_profile_first_name'></span> <span id='meeting_profile_last_name'></span></strong></p>
 				</div>
 
-
-				<div class="user_profile_form col-10">
-					<p><strong>Request <span id='meetingtofromlabel'></span> <span id='meeting_profile_first_name'></span> <span id='meeting_profile_last_name'></span></strong></p>
+				<div class="col-12 col-md-4 profile_photo_div" id='meeting_details_photodiv'>
+					<img class="delegateProfilePic" src="" id="other_profile_img_meeting" alt="profile photo"><br>
+				</div>
+				
+				<div class="user_profile_form col-12 col-md-8">
 					<p><a class='normallink' id='meeting_showhidelabel'>Show profile details</a></p>
 					<div id='meeting_personaldetails' style='display:none'>
 						<p><span id='meeting_profile_organisation'></span>: <span id='meeting_profile_job_title'></span></p>
@@ -396,7 +398,11 @@
 		<h1 class="logo center conference_name"></h1>
 			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
 
-		<h1 class="center">Meeting Requests</h1>
+		<h1 class="center">Meeting Requests <img src='refresh.png' height='30' style='cursor:pointer' onclick='getMeetingRequests(updateMeetingRequestsPage)' /></h1>
+		
+		<div class='centeralign'>
+			<button onclick='window.location.href="#delegateFind_People"'>Create Meeting</button>
+		</div>
 
 							<!-- Returned meeting list From Search -->
 		<div id="meetings_list">
@@ -493,15 +499,16 @@
 		</div>
 
 			<div class="delegateProfile row">
-	 
+				<div class="user_profile_form col-12 text-left">
+					<p><strong><span id='other_profile_first_name'></span> <span id='other_profile_last_name'></span></strong></p>
+				</div>
+				
 
 				<div class="col-12 col-md-4 profile_photo_div" id='profile_img_div'>
 					<img class="delegateProfilePic" src="profile_placeholder.jpeg" id="other_profile_img_profile" alt="profile photo" style='max-width:100%'><br>
 				</div>
-
-
-				<div class="user_profile_form col-12 col-md-10 text-left">
-					<p><strong><span id='other_profile_first_name'></span> <span id='other_profile_last_name'></span></strong></p>
+				
+				<div class="user_profile_form col-12 col-md-8 text-left">
 					<p><span id='other_profile_organisation'></span>: <span id='other_profile_job_title'></span></p>
 					<p><span id='other_profile_bio'></span></p>
 				</div>

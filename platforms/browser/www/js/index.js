@@ -11,12 +11,25 @@ $(document).ready(function(){
 			setInterval(function(){
 				checkInternet();
 				checkConfLastUpdated();
+				
+				if(onmeetinglist && refreshcount%3==0){
+					//refresh lists if on page every 30 seconds
+					getMeetingRequests(updateMeetingRequestsPage);
+				}
+				if(onagendalist && refreshcount%3==0){
+					updateAgenda();
+				}
+				
+				refreshcount++;
 			}, 10000);
 			
 			cordova.getAppVersion.getVersionNumber(function (version) {
 				$('.versionnumber').html('v'+version);
 			});
 });
+
+var refreshcount = 0;
+var agendasort = 'desc';
 
 var spinner = '<svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>';
 
@@ -115,6 +128,10 @@ $(document).on('click',"#login_btn",function() {
 
 $(document).on('click', '.returnhome', function(){
 	location.href = "#delegateIndex";
+});
+
+$(document).on('click', '.refreshagenda', function(){
+	updateAgenda();
 });
 
 $(document).on('click', '.mypage', function(e){
@@ -495,7 +512,6 @@ $(document).on('click', '#send_meeting_btn', function(e){
 				$('#createmeeting_date').val('');
 				$('#schdlr_lctn').val('');
 				$('#schdlr_msg').val('');
-				$('#selectedattendeeref').val('');
 			});
 		}else{
 			$('#otherprofilestatusresponse').show();
@@ -824,6 +840,8 @@ function getAttendeeProfile(attendeeref){
 			if(response.success){
 				$('#other_profile_first_name').html(response.data.first_name);
 				$('#other_profile_last_name').html(response.data.last_name);
+				$('#other_profile_first_name_small').html(response.data.first_name);
+				$('#other_profile_last_name_small').html(response.data.last_name);
 				$('#other_profile_organisation').html(response.data.organisation);
 				$('#other_profile_job_title').html(response.data.job_title);
 				$('#other_profile_bio').html(response.data.bio);
@@ -850,6 +868,8 @@ function getAttendeeProfile(attendeeref){
 		$('#other_profile_error').html("You need to be connected to the internet to view user profiles");
 		$('#other_profile_first_name').html(response.data.first_name);
 		$('#other_profile_last_name').html(response.data.last_name);
+		$('#other_profile_first_name_small').html(response.data.first_name);
+		$('#other_profile_last_name_small').html(response.data.last_name);
 		$('#other_profile_organisation').html(response.data.organisation);
 		$('#other_profile_job_title').html(response.data.job_title);
 		$('#other_profile_bio').html(response.data.bio);
@@ -1004,41 +1024,43 @@ function getSeminars(callback){
 }
 
 var updatingagendainterval;
-function updateAgenda(direction){
+function updateAgenda(){
 	if(isInternet){
 		getSeminars('');
 		getMeetingRequests('');
 		updatingagendainterval = setInterval(function(){
 			if(!updatingseminars && !updatingmeetings){
-				updateAgendaPage(true, direction);
+				updateAgendaPage(true);
 			}
 		}, 100);
 	}else{
-		updateAgendaPage(false, direction);
+		updateAgendaPage(false);
 	}
 }
 
 $(document).on('click',"#sortagendaasc",function(e) {
 	e.preventDefault();
-	updateAgenda('asc');
+	agendasort = 'asc';
+	updateAgenda();
 }); 
 $(document).on('click',"#sortagendadesc",function(e) {
 	e.preventDefault();
-	updateAgenda('desc');
+	agendasort = 'desc';
+	updateAgenda();
 }); 
 
-function updateAgendaPage(clearint, direction){
+function updateAgendaPage(clearint){
 	if(clearint){
 		clearInterval(updatingagendainterval);
 	}
 	
-	if(direction=='asc'){
+	if(agendasort=='asc'){
 		$('#sortagendaasc').hide();
 		$('#sortagendadesc').show();
 	}else{
 		$('#sortagendaasc').show();
 		$('#sortagendadesc').hide();
-	}
+	} 
 	
 	//first we need to get an ordered list of the elements
 	var agenda = [];
@@ -1091,7 +1113,7 @@ function updateAgendaPage(clearint, direction){
 			agenda.push(thisseminar);
 		});
 	}
-	if(direction=='asc'){
+	if(agendasort=='asc'){
 		agenda.sort(compareAgenda);
 	}else{
 		agenda.sort(compareAgendaDesc);
@@ -1241,10 +1263,14 @@ function showMeetingDetails(){
 				thumb = localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_thumb");
 				$('#sent_meeting_direction_span').html("Recieved");
 			}
+			
 			if(typeof(thumb!='')!==null && thumb!== null && thumb!='null' && thumb!=''){
+				var fulladdress = "https://reg.bookmein2.com/images/profile/"+localStorage.getItem("conf_"+curconference+"_id")+"/"+thumb;
+				$('#other_profile_img_meeting').attr('src', fulladdress);
 				$('#meeting_details_photodiv').show();
 			}else{
 				$('#meeting_details_photodiv').hide();
+				$('#other_profile_img_meeting').attr('src', '');
 			}
 			
 			$('#sent_meeting_schedule').show();
@@ -1255,9 +1281,13 @@ function showMeetingDetails(){
 			$('#sent_meeting_rearrange_location').val(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_location"));
 			$('#sent_meeting_message').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_sender_message"));
 			var response = localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_response");
+
 			if(typeof(response!='')!==null && response!== null && response!='null' && response!=''){
 				$('#sent_meeting_response_text').html(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_response"));
 				$('#sent_meeting_response_textarea').val(localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_receiver_response"));
+			}else{
+				$('#sent_meeting_response_text').html('');
+				$('#sent_meeting_response_textarea').val('');
 			}
 			
 			if(incoming && localStorage.getItem("conf_"+curconference+"_meeting_"+selectedmeeting+"_status") == 'Pending'){
@@ -1396,10 +1426,16 @@ function clearConference(conferenceid){
 	
 }
 
+var onmeetinglist = false;
+var onagendalist = false;
+
 //Page change listener - calls functions to make this readable. NB due to the way the "pages" are loaded we cannot put this inside the document ready function.
 //Sham - this and the below are there for expandability, can be used for selective synch so only page relevant data is refreshed.
 $(document).on( "pagecontainerchange", function( event, ui ) {
-			
+
+	onmeetinglist = false;
+	onagendalist = false;
+
 	switch (ui.toPage.prop("id")) {
 		case "delegateIndex":
 			fill_conference_data();
@@ -1409,12 +1445,14 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 		case "delegateHome":
 			break;
 		case "delegateAgenda":
-			updateAgenda(false, 'asc');
+			onagendalist = true;
+			updateAgenda();
 			break;
 		case "delegateFind_People":
 			getAttendeeList();
 			break;
 		case "delegateManage_Meeting":
+			onmeetinglist = true;
 			getMeetingRequests(updateMeetingRequestsPage);
 			break;
 		case "delegatePerson_Profile":
@@ -1554,6 +1592,8 @@ function resetAllFields(){
 	$('#speakerbio').html('');
 	$('#other_profile_first_name').html('');
 	$('#other_profile_last_name').html('');
+	$('#other_profile_first_name_small').html('');
+	$('#other_profile_last_name_small').html('');
 	$('#other_profile_organisation').html('');
 	$('#other_profile_job_title').html('');
 	$('#other_profile_bio').html('');

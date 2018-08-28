@@ -13,9 +13,10 @@ a {
 #banner {
 	width:100%;
 	border: thin solid pink;
-	overflow: hidden;}
+	overflow: hidden;
+}
 	
-#menu_icon {
+#menu_icon,.menu_icon {
 	float: left;
 	width:10%;
 	position: relative;

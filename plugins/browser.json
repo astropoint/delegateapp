@@ -13,16 +13,16 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
         },
-        "cordova-plugin-network-information": {
+        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
         },
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
         },
-        "cordova-plugin-file-transfer": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.jmdb.delegateapp"
         },
         "cordova-plugin-app-version": {

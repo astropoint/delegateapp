@@ -12,6 +12,10 @@ $(document).ready(function(){
 				checkInternet();
 				checkConfLastUpdated();
 				
+				if(curconference>0){
+					refreshCurConference();
+				}
+				
 				if(onmeetinglist && refreshcount%3==0){
 					//refresh lists if on page every 30 seconds
 					getMeetingRequests(updateMeetingRequestsPage);
@@ -23,9 +27,13 @@ $(document).ready(function(){
 				refreshcount++;
 			}, 10000);
 			
-			cordova.getAppVersion.getVersionNumber(function (version) {
-				$('.versionnumber').html('v'+version);
-			});
+			try{
+				cordova.getAppVersion.getVersionNumber(function (version) {
+					$('.versionnumber').html('v'+version);
+				});
+			}catch(error){
+				console.log("Unable to get version, you are likely using a browser");
+			}
 });
 
 var refreshcount = 0;
@@ -662,11 +670,19 @@ function refreshCurConference(){
 	$('.conference_name').html(localStorage.getItem("conf_"+curconference+"_name"));
 	$('#conference_desc').html(localStorage.getItem("conf_"+curconference+"_desc"));
 	$('#conference_address').html(localStorage.getItem("conf_"+curconference+"_address"));
-	$('#conference_image').attr('src', 'data:image/png;base64,'+localStorage.getItem("conf_"+curconference+"_image"));
+	var conf_image = localStorage.getItem("conf_"+curconference+"_image");
+	if(conf_image!==null && conf_image!='undefined' && conf_image!=''){
+		$('#conference_image').show();
+		$('#conference_image').attr('src', 'data:image/png;base64,'+localStorage.getItem("conf_"+curconference+"_image"));
+	}else{
+		$('#conference_image').hide();
+		$('#conference_image').attr('src', '');
+	}
 	var start_date = localStorage.getItem("conf_"+curconference+"_start_date");
-	var start_date_object = new Date(start_date);
-	var start_date_formatted = start_date_object.getDate()+" "+months[start_date_object.getMonth()]+" "+start_date_object.getFullYear();
-	$('.conference_date').html(start_date_formatted);
+	
+	if(start_date!='' && start_date!=null && start_date !== null && start_date!='undefined'){
+		$('.conference_date').html(formattedDate(start_date));
+	}
 	
 	var mapcoords = localStorage.getItem("conf_"+curconference+"_mapcoords");
 	if(mapcoords!=''){
@@ -909,7 +925,6 @@ function refreshConferenceData(conferenceid, updatecurconf){
 
 function fill_conference_data(){
 	var conflisthtml = "";
-	console.log(numconferences);
 	
 	for(var i = 1; i<=numconferences;i++){
 		if(localStorage.getItem("conf_"+i+"_active")=='1'){
@@ -1437,9 +1452,13 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 
 	switch (ui.toPage.prop("id")) {
 		case "delegateIndex":
+			curconference = 0;
+			localStorage.setItem('curconference', 0);
 			fill_conference_data();
 			break;
 		case "delegateLogin":
+			curconference = 0;
+			localStorage.setItem('curconference', 0);
 			break;
 		case "delegateHome":
 			break;
@@ -1475,6 +1494,8 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 			clearMeetingFields();
 			break;
 		case "termsAndPrivacy":
+			localStorage.setItem('curconference', 0);
+			curconference = 0;
 			break;
 		default:
 			alert("NO PAGE INIT FUNCTION")

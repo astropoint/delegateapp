@@ -195,8 +195,7 @@ $(document).on('keyup', '#search_people_bar', function(e){
 $(document).on('click', '.menu_link', function(e){
 	var clicked = $(this).attr('href');
 	var active= $('.ui-page-active').attr('id');
-	console.log(clicked);
-	console.log(active);
+	
 	if(clicked=='#'+active){
 		$('#leftpanel').panel('close');
 	}

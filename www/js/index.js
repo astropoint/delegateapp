@@ -26,15 +26,6 @@ $(document).ready(function(){
 				
 				refreshcount++;
 			}, 10000);
-			
-			try{
-				cordova.getAppVersion.getVersionNumber(function (version) {
-					$('.versionnumber').html('v'+version);
-				});
-			}catch(error){
-				alert("Unable to get version number: "+error);
-				console.log("Unable to get version, you are likely using a browser");
-			}
 });
 
 var refreshcount = 0;
@@ -47,8 +38,16 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 var destinationType;
 function onDeviceReady(){
 	
-		pictureSource=navigator.camera.PictureSourceType;
-		destinationType=navigator.camera.DestinationType;
+	pictureSource=navigator.camera.PictureSourceType;
+	destinationType=navigator.camera.DestinationType;
+	
+	try{
+		cordova.getAppVersion.getVersionNumber(function (version) {
+			$('.versionnumber').html(version);
+		});
+	}catch(error){
+		console.log("App version cannot be loaded, you are probably using a browser");
+	}
 }
 
 var siteURL = "https://reg.bookmein2.com";

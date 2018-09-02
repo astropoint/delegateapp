@@ -32,6 +32,7 @@ $(document).ready(function(){
 					$('.versionnumber').html('v'+version);
 				});
 			}catch(error){
+				alert("Unable to get version number: "+error);
 				console.log("Unable to get version, you are likely using a browser");
 			}
 });

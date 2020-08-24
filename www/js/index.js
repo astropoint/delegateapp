@@ -50,7 +50,7 @@ function onDeviceReady(){
 	}
 }
 
-var siteURL = "https://dev.bookmein2.com";
+var siteURL = "https://bookmein2.com";
 var apiURL = siteURL+"/api/api.php";
 var isInternet = true;
 var numconferences = 0;
@@ -866,7 +866,7 @@ function getAttendeeProfile(attendeeref){
 					$('#other_profile_img_profile').attr('src', "");
 				}else{
 					$('#profile_img_div').show();
-					$('#other_profile_img_profile').attr('src', "https://dev.bookmein2.com/images/profile/"+response.data.conferenceid+"/"+response.data.profileimg_thumb);
+					$('#other_profile_img_profile').attr('src', "https://bookmein2.com/images/profile/"+response.data.conferenceid+"/"+response.data.profileimg_thumb);
 				}
 			}else{
 				$('#other_profile_error').html("Unable to get list of attendees: "+response.error);
@@ -1279,7 +1279,7 @@ function showMeetingDetails(){
 			}
 			
 			if(typeof(thumb!='')!==null && thumb!== null && thumb!='null' && thumb!=''){
-				var fulladdress = "https://dev.bookmein2.com/images/profile/"+localStorage.getItem("conf_"+curconference+"_id")+"/"+thumb;
+				var fulladdress = "https://bookmein2.com/images/profile/"+localStorage.getItem("conf_"+curconference+"_id")+"/"+thumb;
 				$('#other_profile_img_meeting').attr('src', fulladdress);
 				$('#meeting_details_photodiv').show();
 			}else{

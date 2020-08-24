@@ -26,15 +26,6 @@ $(document).ready(function(){
 				
 				refreshcount++;
 			}, 10000);
-			
-			try{
-				cordova.getAppVersion.getVersionNumber(function (version) {
-					$('.versionnumber').html('v'+version);
-				});
-			}catch(error){
-				alert("Unable to get version number: "+error);
-				console.log("Unable to get version, you are likely using a browser");
-			}
 });
 
 var refreshcount = 0;
@@ -47,11 +38,19 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 var destinationType;
 function onDeviceReady(){
 	
-		pictureSource=navigator.camera.PictureSourceType;
-		destinationType=navigator.camera.DestinationType;
+	pictureSource=navigator.camera.PictureSourceType;
+	destinationType=navigator.camera.DestinationType;
+	
+	try{
+		cordova.getAppVersion.getVersionNumber(function (version) {
+			$('.versionnumber').html(version);
+		});
+	}catch(error){
+		console.log("App version cannot be loaded, you are probably using a browser");
+	}
 }
 
-var siteURL = "https://reg.bookmein2.com";
+var siteURL = "https://dev.bookmein2.com";
 var apiURL = siteURL+"/api/api.php";
 var isInternet = true;
 var numconferences = 0;
@@ -867,7 +866,7 @@ function getAttendeeProfile(attendeeref){
 					$('#other_profile_img_profile').attr('src', "");
 				}else{
 					$('#profile_img_div').show();
-					$('#other_profile_img_profile').attr('src', "https://reg.bookmein2.com/images/profile/"+response.data.conferenceid+"/"+response.data.profileimg_thumb);
+					$('#other_profile_img_profile').attr('src', "https://dev.bookmein2.com/images/profile/"+response.data.conferenceid+"/"+response.data.profileimg_thumb);
 				}
 			}else{
 				$('#other_profile_error').html("Unable to get list of attendees: "+response.error);
@@ -1280,7 +1279,7 @@ function showMeetingDetails(){
 			}
 			
 			if(typeof(thumb!='')!==null && thumb!== null && thumb!='null' && thumb!=''){
-				var fulladdress = "https://reg.bookmein2.com/images/profile/"+localStorage.getItem("conf_"+curconference+"_id")+"/"+thumb;
+				var fulladdress = "https://dev.bookmein2.com/images/profile/"+localStorage.getItem("conf_"+curconference+"_id")+"/"+thumb;
 				$('#other_profile_img_meeting').attr('src', fulladdress);
 				$('#meeting_details_photodiv').show();
 			}else{
